@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html>
-<body>
-
 <?php
-
-
+    include "header.php";
 ?>
 
-</body>
-</html>
+<!-- code here -->
+
+<?php
+    include "footer.php";
+?>
+
 

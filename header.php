@@ -1,8 +1,15 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: dinge
- * Date: 4/28/2018
- * Time: 2:35 PM
- */
     require "./php/settings.php";
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Trade your books now!</title>
+    </head>
+    <body>
+        <header id="header">
+            <!-- code here -->
+        </header>
+    <!-- end header -->

@@ -6,16 +6,16 @@
  * Time: 10:02 AM
  */
 
-// database settings
-define("SERVER", "localhost");
-define("DATABASE", "bookbin");
+// Database settings
+define("DB_SERVER", "localhost");
+define("DB_NAME", "bookbin");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
 
 
 date_default_timezone_set("Asia/Manila");
-$link = mysqli_connect(SERVER, DB_USERNAME, DB_PASSWORD, DATABASE);
-if (!$link)
+
+// Creates a connection to the database
+$conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
+if (!$conn)
     die("Unable to connect to MySQL: " . mysqli_connect_error());
-else
-    echo "Connected to database " . DATABASE;
