@@ -5,13 +5,14 @@
 
 <?php
     require "./php/settings.php";
+    include "./php/bookpoints.php";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Trade your books now!</title>
+        <title>Bookbin - Trade your books now!</title>
     </head>
     <body>
         <header>
@@ -20,7 +21,7 @@
                 // Display username and password if the user is logged in
                 if (isset($_SESSION["username"])) {
                     echo "<div>";
-                    echo "Hi, " . $_SESSION["username"] . ", welcome to Bookbin! | ";
+                    echo "Hi, " . $_SESSION["username"] . ", BP: " . $_SESSION["bookpoint"] . " | ";
                     echo "<a href=\"logout.php\">Logout</a>";
                     echo "</div>";
                 } else {
