@@ -65,23 +65,17 @@
 
 ?>
 
+
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-    <div>
         <label>Username: </label>
-        <input type="text" name="username" value="<?php echo $username ?>">
+        <input id="form_input" name="username" placeholder="Username" type="text">
         <span class="error"><?php echo $username_err ?></span>
-    </div>
-    <div>
         <label>Password: </label>
-        <input type="password" name="password" value="<?php echo $password ?>">
+        <input id="form_input" name="password" placeholder="Password" type="text">
         <span class="error"><?php echo $password_err ?></span>
-    </div>
-    <div>
-        <input type="submit" value="Submit"
-    </div>
+        <input id="form_button" name="submit" value="Log in" type="submit">
     <p>Don't have an account? <a href="register.php">Register</a></p>
 </form>
-
 
 <?php include "footer.php"; ?>
 
