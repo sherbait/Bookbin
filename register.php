@@ -214,7 +214,7 @@
         mysqli_close($conn);
     }
 
-    // Removes whitespaces and backslashes
+    // Removes whitespaces and backslashes, also sanitizes data
     function clean_input($input) {
         $input = trim($input);
         $input = stripslashes($input);
@@ -296,7 +296,9 @@
         <input type="submit" value="Submit">
         <input type="reset" value="Reset">
     </div>
+    <p>Already have an account? <a href="login.php">Login</a></p>
 </form>
+
 
 <?php
     include "footer.php";

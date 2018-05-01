@@ -17,5 +17,7 @@ date_default_timezone_set("Asia/Manila");
 
 // Creates a connection to the database
 $conn = mysqli_connect(DB_SERVER, DB_USERNAME, DB_PASSWORD, DB_NAME);
-if (!$conn)
-    die("Unable to connect to MySQL: " . mysqli_connect_error());
+if (!$conn) {
+    die("Unable to connect to database: " . mysqli_connect_error());
+}
+mysqli_set_charset($conn, "utf8mb4");
