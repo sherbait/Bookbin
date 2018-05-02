@@ -24,8 +24,6 @@ include "./php/bookpoints.php";
     </button>
     <?php
     // Display username and bookpoints if the user is logged in
-    echo $_SERVER['REQUEST_URI'];
-
     if (isset($_SESSION["username"])) {
         echo "<div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">";
         echo "<ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">";
@@ -51,7 +49,14 @@ include "./php/bookpoints.php";
         // Don't show the nav bar during login or registration
     } else {
         echo "<div class=\"navbar-nav\">";
+        // Search bar: search name must be "term"
+        echo "<form class=\"form-inline my-2 my-lg-0\" action='search.php' id='form_search'>";
+        echo "<input class=\"form_input\" type='search' placeholder=\"Search books...\" aria-label=\"Search\" name='term' id='form_search_term'>";
+        echo "<button class=\"form_button\" type=\"submit\">Search</button>";
+        echo "</form>";
+        // Login button
         echo "<a class=\"nav-item nav-link\" href=\"login.php\"><input id=\"form_button\" name=\"submit\" value=\"Log In\" type=\"submit\"></a>";
+        // Register button
         echo "<a class=\"nav-item nav-link\" href=\"register.php\"><input id=\"form_button\" name=\"submit\" value=\"Sign Up\" type=\"submit\"></a>";
         echo "</div>";
     }

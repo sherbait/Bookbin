@@ -95,16 +95,17 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             echo $description;
             echo "<br />";
 
-            // Add to trade and wish list buttons
-            echo "<div>";
-            echo "<form method='post' name='add'>";
-            echo "<input type='hidden' name='book_id' value='{$id}'>";
-            echo "<input type='hidden' name='book_title' value='{$title}'>";
-            echo "<input type='submit' value='Add to Wish List' formaction='./wish_list.php'>";
-            echo "<input type='submit' value='Add to Trade List' formaction='./trade_list.php'>";
-            echo "</form>";
-            echo "</div>";
-
+            if (isset($_SESSION["username"])) {
+                // Add trade and wish list buttons if user is logged in
+                echo "<div>";
+                echo "<form method='post' name='add'>";
+                echo "<input type='hidden' name='book_id' value='{$id}'>";
+                echo "<input type='hidden' name='book_title' value='{$title}'>";
+                echo "<input type='submit' value='Add to Wish List' formaction='./wish_list.php'>";
+                echo "<input type='submit' value='Add to Trade List' formaction='./trade_list.php'>";
+                echo "</form>";
+                echo "</div>";
+            }
 
             echo "</div>";  // div id=search_result_row
         }
