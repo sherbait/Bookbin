@@ -80,7 +80,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <input id="form_input" name="username" placeholder="Username" type="text">
     <span class="error"><?php echo $username_err ?></span>
     <label>Password: </label>
-    <input id="form_input" name="password" placeholder="Password" type="text">
+    <input id="form_input" name="password" placeholder="Password" type="password">
     <span class="error"><?php echo $password_err ?></span>
     <input id="form_button" name="submit" value="Log in" type="submit">
     <p>Don't have an account? <a href="register.php">Register</a></p>

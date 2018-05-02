@@ -23,7 +23,9 @@ include "./php/bookpoints.php";
         <span class="navbar-toggler-icon"></span>
     </button>
     <?php
-    // Display username and password if the user is logged in
+    // Display username and bookpoints if the user is logged in
+    echo $_SERVER['REQUEST_URI'];
+
     if (isset($_SESSION["username"])) {
         echo "<div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">";
         echo "<ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">";
@@ -45,6 +47,8 @@ include "./php/bookpoints.php";
         echo "<a href=\"notifications.php\"><img class=\"nav_icon\" src=\"img/bell2.png\" alt=\"\notification\"></a>";
         echo "<a class=\"nav-item nav-link\" href=\"logout.php\"><input class=\"form_button\" name=\"submit\" value=\"Log Out\" type=\"submit\"></a>";
         echo "</div>";
+    } elseif ($_SERVER['REQUEST_URI'] === "/login.php" || $_SERVER['REQUEST_URI'] === "/register.php") {
+        // Don't show the nav bar during login or registration
     } else {
         echo "<div class=\"navbar-nav\">";
         echo "<a class=\"nav-item nav-link\" href=\"login.php\"><input id=\"form_button\" name=\"submit\" value=\"Log In\" type=\"submit\"></a>";
@@ -53,4 +57,4 @@ include "./php/bookpoints.php";
     }
     ?>
 </nav>
-<!-- end header: </body> tag in footer -->
+<!-- end header: </body> tag in footer.php -->
