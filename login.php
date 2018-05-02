@@ -3,6 +3,14 @@
 ?>
 
 <?php
+    // Redirect user to homepage, with an attempt to access the register page while logged in
+    if (isset($_SESSION["username"])) {
+        header("location: index.php");
+        exit;
+    }
+?>
+
+<?php
     // User variables
     $username = $password = "";
     $username_err = $password_err = "";
@@ -22,7 +30,7 @@
 
         // Authenticate the credentials
         if (empty($username_err) && empty($password_err)){
-            // Prepare the statement
+            // Prepare the statements: one for authentication, another for bookpoints retrieval
             $sql = "SELECT username, password FROM user WHERE username=?";
 
             if ($stmt = mysqli_prepare($conn, $sql)) {
@@ -42,8 +50,10 @@
                         if (mysqli_stmt_fetch($stmt)) {
                             if (password_verify($password, $hashed_password)) {
                                 // Password is correct, start a new session with the user
-                                session_start();
+                                //session_start();
                                 $_SESSION["username"] = $username;
+
+                                // No error encountered, redirect the user
                                 header("location: index.php");
                             } else {
                                 $password_err = "Invalid username/password";
@@ -53,7 +63,7 @@
                         $username_err = "Username does not exist";
                     }
                 } else {
-                    echo "ERROR: Something went wrong in [login]. Please try again later.";
+                    echo "ERROR: Something went wrong in login. Please try again later.";
                 }
             }
             // Close the statement

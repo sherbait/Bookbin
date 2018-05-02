@@ -1,5 +1,14 @@
 <?php
     include "header.php";
+    include "./php/functions.php";
+?>
+
+<?php
+    // Redirect user to homepage, with an attempt to access the register page while logged in
+    if (isset($_SESSION["username"])) {
+        header("location: index.php");
+        exit;
+    }
 ?>
 
 <?php
@@ -67,102 +76,18 @@
             }
         }
 
-        if (empty($password)) {
-            $password_err = "Password is required";
-        } else {
-
-            // Check if password is at least 8 characters long
-            if (strlen($password) < 8) {
-                $password_err = "Must be at least 8 characters";
-            }
-        }
-
-        if (empty($confirm_password)) {
-            $confirm_password_err = "Confirm password is required";
-        } else {
-
-            // Check if password entered is the same
-            if ($password != $confirm_password) {
-                $confirm_password_err = "Password does not match";
-            }
-        }
-
-        if (empty($email)) {
-            $email_err = "Email is required";
-        } else {
-
-            // Check if email address has the correct format
-            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                $email_err = "Invalid email format";
-            }
-        }
-
-        if (empty($phone)) {
-            $phone_err = "Cellphone/Landline is required";
-        } else {
-
-            // Check if phone number is all digits (e.g. 09171234567 or 029876543)
-            if (!preg_match("/^[0-9]*$/", $phone)) {
-                $phone_err = "Only numbers allowed";
-            } else {
-                // Check if phone number has max 11 digits and minimum 7
-                if (strlen($phone) < 7 || strlen($phone) > 11) {
-                    $phone_err = "Must be 7-11 digit phone number";
-                }
-            }
-        }
-
-        if (empty($first_name)) {
-            $first_name_err = "First name is required";
-        } else {
-
-            // Check if name has only letters and spaces
-            if (!preg_match("/^[a-zA-Z ]*$/", $first_name)) {
-                $first_name_err = "Only letters and white space allowed";
-            }
-        }
-
-        // Middle name is optional
-
-        if (!preg_match("/^[a-zA-Z ]*$/", $middle_name)) {
-            $middle_name_err = "Only letters and white space allowed";
-        }
-
-        if (empty($last_name)) {
-            $last_name_err = "Last name is required";
-        } else {
-
-            if (!preg_match("/^[a-zA-Z ]*$/", $last_name)) {
-                $last_name_err = "Only letters and white space allowed";
-            }
-        }
-
-        // Address fields
-        if (empty($address_no)) {
-            $address_no_err = "House/Bldg/Unit No. is required";
-        }
-        if (empty($address_street)) {
-            $address_street_err = "Street/Subdivision is required";
-        }
-        if (empty($address_city)) {
-            $address_city_err = "City is required";
-        }
-        if (empty($address_province)) {
-            $address_province_err = "Province is required";
-        }
-        if (empty($address_zip)) {
-            $address_zip_err = "Zip/Postal code is required";
-        } else {
-
-            // Check if zip code is a 4-digit number
-            if (!preg_match("/^[0-9]*$/", $address_zip)) {
-                $address_zip_err = "4-digit zip code required";
-            } else {
-                if (strlen($address_zip) != 4) {
-                    $address_zip_err = "Zip code must be 4 digits";
-                }
-            }
-        }
+        $password_err = validate_password($password);
+        $confirm_password_err = confirm_password($password, $confirm_password);
+        $email_err = validate_email($email);
+        $phone_err = validate_phone($phone);
+        $first_name_err = validate_fname($first_name);
+        $middle_name_err = validate_mname($middle_name);
+        $last_name_err = validate_lname($last_name);
+        $address_no_err = validate_address_no($address_no);
+        $address_street_err = validate_address_street($address_street);
+        $address_city_err = validate_address_city($address_city);
+        $address_province_err = validate_address_province($address_province);
+        $address_zip_err = validate_address_zip($address_zip);
         /* VALIDATION SECTION ENDS */
 
         // Check if there are errors generated before inserting into database
@@ -192,6 +117,7 @@
                 $param_password = password_hash($password, PASSWORD_DEFAULT);
                 $param_email = $email;
                 $param_phone = $phone;
+                // TODO: separate address values into tables
                 $param_address = "$address_no, "."$address_street, "."$address_city, "."$address_province ".$address_zip;
                 $param_first_name = $first_name;
                 $param_middle_name = $middle_name;
@@ -212,14 +138,6 @@
 
         // Close db connection
         mysqli_close($conn);
-    }
-
-    // Removes whitespaces and backslashes, also sanitizes data
-    function clean_input($input) {
-        $input = trim($input);
-        $input = stripslashes($input);
-        $input = htmlspecialchars($input);
-        return $input;
     }
 ?>
 
