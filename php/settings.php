@@ -11,6 +11,8 @@ define("DB_SERVER", "localhost");
 define("DB_NAME", "bookbin");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
+// Key needed to communicate with Google Books API
+define("API_KEY", "AIzaSyClZjM2QOgsz_QPXDmRPlDeB1WQlHvsK7s");   // TODO: change restriction to website URL
 
 
 date_default_timezone_set("Asia/Manila");

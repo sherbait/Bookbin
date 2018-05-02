@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 html,body { 
       background-color: ;   
       -webkit-background-size: cover;
@@ -14,6 +15,24 @@ html,body {
 	width: 100px;
     height: auto;
 	
+=======
+html,body {
+    /*background-color:  ; TODO */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+   /* padding: ; TODO*/
+    font-family: sans-serif;
+
+}
+
+
+#bookbin_logo {
+    width: 100px;
+    height: auto;
+
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 .nav_icon {
@@ -23,6 +42,7 @@ html,body {
 }
 
 nav ul {
+<<<<<<< HEAD
       
       list-style-type: none;
       text-align: left;
@@ -50,6 +70,35 @@ nav ul {
     .active {
         background-color: #4CAF50;
     }
+=======
+
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    /*overflow: hidden;*/
+    display: flex;
+    -webkit-justify-content: center;
+}
+nav li {
+    float:right;
+}
+
+nav li a {
+    color: black;
+    display: block;
+    padding: 10px 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav li a:hover:not(.active) {
+    background-color: darkslategray;
+}
+.active {
+    background-color: #4CAF50;
+}
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 
 /*#search_bar {
 	padding: 3px;
@@ -57,7 +106,11 @@ nav ul {
 	border-radius: 5px;
 	border: solid 1px gray;
 	width: 300px;
+<<<<<<< HEAD
 	
+=======
+
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }*/
 
 #search_bar_big {
@@ -70,6 +123,19 @@ nav ul {
 
 }
 
+<<<<<<< HEAD
+=======
+/* TODO: Handles look of result table from searching a book, see search.php */
+#search_result {
+
+}
+
+/* TODO: handles look of each row in the search results table */
+#search_result_row {
+
+}
+
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 #loginform {
     width: 300px;
     height: 100%;
@@ -79,19 +145,34 @@ nav ul {
 
 .form_input {
     margin-right: 10px;
+<<<<<<< HEAD
 	padding: 3px;
 	border-radius: 5px;
 	border: solid 1px gray;
+=======
+    padding: 3px;
+    border-radius: 5px;
+    border: solid 1px gray;
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 .form_button {
     color: darkslategray;
+<<<<<<< HEAD
 	background-color:  cadetblue;
 	border-radius: 5px;
 	padding: 5px;
     margin-right: 10px;
 	text-decoration: none;
 	border: none;
+=======
+    background-color:  cadetblue;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+    border: none;
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 .form_button:hover {
@@ -100,11 +181,19 @@ nav ul {
 }
 
 #id {
+<<<<<<< HEAD
 /* The id selector uses the id attribute of an HTML element to select a specific element. */
 }
 
 .class {
 /* The class selector selects elements with a specific class attribute. */
+=======
+    /* The id selector uses the id attribute of an HTML element to select a specific element. */
+}
+
+.class {
+    /* The class selector selects elements with a specific class attribute. */
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 h1 {

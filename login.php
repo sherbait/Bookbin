@@ -75,17 +75,30 @@
 
 ?>
 
-
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-        <label>Username: </label>
-        <input id="form_input" name="username" placeholder="Username" type="text">
-        <span class="error"><?php echo $username_err ?></span>
-        <label>Password: </label>
-        <input id="form_input" name="password" placeholder="Password" type="text">
-        <span class="error"><?php echo $password_err ?></span>
-        <input id="form_button" name="submit" value="Log in" type="submit">
-    <p>Don't have an account? <a href="register.php">Register</a></p>
+<form class="form-horizontal" id="login_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+    <div>
+        <div class="form-group">
+            <label class="control-label" for="username">Username:</label>
+            <div class="col-sm-3">
+                <input type="text" class="form-control" id="username" name="username">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label"  for="password">Password:</label>
+            <div class="col-sm-3">
+                <input type="password" class="form-control" id="password" name="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <input class="form_button" type="submit" value="Submit">
+        </div>
+            <div class="form-group">
+                <p>Don't have an account? <a href="register.php">Register</a></p>
+            </div>
+    </div>
 </form>
+
 
 <?php include "footer.php"; ?>
 

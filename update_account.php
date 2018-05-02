@@ -87,7 +87,7 @@
     </div>
     <div>
         <label>Email:</label>
-        <input type="text" name="email" value="<?php echo $email; ?>">
+        <input type="email" name="email" value="<?php echo $email; ?>">
         <span class="error"><?php echo $email_err; ?></span>
     </div>
     <div>

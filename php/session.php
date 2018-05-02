@@ -6,7 +6,7 @@
  * Time: 5:51 PM
  */
 
-// Check if the user is logged in, otherwise redirect to login page
+// Redirect to the login page if the user is not logged in
 if (!isset($_SESSION["username"]) || empty($_SESSION["username"])) {
     header("location: login.php");
     exit;
