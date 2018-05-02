@@ -1,0 +1,117 @@
+html,body {
+    /*background-color:  ; TODO */
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+   /* padding: ; TODO*/
+    font-family: sans-serif;
+
+}
+
+
+#bookbin_logo {
+    width: 100px;
+    height: auto;
+
+}
+
+.nav_icon {
+    padding: 5px;
+    width: 45px;
+    height: 45px;
+}
+
+nav ul {
+
+    list-style-type: none;
+    text-align: left;
+    margin: 0;
+    padding: 0;
+    /*overflow: hidden;*/
+    display: flex;
+    -webkit-justify-content: center;
+}
+nav li {
+    float:right;
+}
+
+nav li a {
+    color: black;
+    display: block;
+    padding: 10px 10px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav li a:hover:not(.active) {
+    background-color: darkslategray;
+}
+.active {
+    background-color: #4CAF50;
+}
+
+/*#search_bar {
+	padding: 3px;
+	margin-right: 100px;
+	border-radius: 5px;
+	border: solid 1px gray;
+	width: 300px;
+
+}*/
+
+#search_bar_big {
+    font-size: 20pt;
+    padding: 3px;
+    border-radius: 5px;
+    border: solid 1px gray;
+    height: 20px;
+    width: 500px;
+
+}
+
+#loginform {
+    width: 300px;
+    height: 100%;
+    padding: 10px 10px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.form_input {
+    margin-right: 10px;
+    padding: 3px;
+    border-radius: 5px;
+    border: solid 1px gray;
+}
+
+.form_button {
+    color: darkslategray;
+    background-color:  cadetblue;
+    border-radius: 5px;
+    padding: 5px;
+    margin-right: 10px;
+    text-decoration: none;
+    border: none;
+}
+
+.form_button:hover {
+    background-color: darkslategray; /* Green */
+    color: white;
+}
+
+#id {
+    /* The id selector uses the id attribute of an HTML element to select a specific element. */
+}
+
+.class {
+    /* The class selector selects elements with a specific class attribute. */
+}
+
+h1 {
+}
+
+p {
+
+}
+
+div
