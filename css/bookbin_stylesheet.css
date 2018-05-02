@@ -70,6 +70,16 @@ nav li a:hover:not(.active) {
 
 }
 
+/* TODO: Handles look of result table from searching a book, see search.php */
+#search_result {
+
+}
+
+/* TODO: handles look of each row in the search results table */
+#search_result_row {
+
+}
+
 #loginform {
     width: 300px;
     height: 100%;
