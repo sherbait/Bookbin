@@ -42,9 +42,9 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
             $last_name = $row['last_name'];
             $created = $row['created'];
         }
-    } else {
-        echo "ERROR: Something went wrong in profile. Please try again later.";
     }
+} else {
+    echo "ERROR: Something went wrong in profile. Please try again later.";
 }
 
 // Close the statement

@@ -6,6 +6,23 @@
  * Time: 8:12 PM
  */
 
+// Error handler
+/*function custom_error($level, $message, $file="Unknown", $line=0, $context=array()) {
+    if (($level == E_NOTICE) || ($level == E_ERROR)) {
+        return false;
+    }
+
+    if (!error_reporting()) {
+        return false;
+    }
+
+    throw new Exception($message, $level);
+
+    return true;
+}
+
+set_error_handler("custom_error", E_NOTICE);*/
+
 // Removes whitespaces and backslashes, also sanitizes data
 function clean_input($input) {
     $input = trim($input);

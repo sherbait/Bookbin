@@ -1,10 +1,29 @@
+<<<<<<<  HEAD,
+html,body { 
+      background-color: ;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      padding: ;
+	  font-family: sans-serif;
+      
+    }
+	
+
+#bookbin_logo {
+    width: 100px;
+    height: auto;
+}
+	
+=======
 html,body {
     /*background-color:  ; TODO */
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
-    padding: ; TODO*/
+   /* padding: ; TODO*/
     font-family: sans-serif;
 
 }
@@ -14,6 +33,7 @@ html,body {
     width: 100px;
     height: auto;
 
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 .nav_icon {
@@ -23,6 +43,35 @@ html,body {
 }
 
 nav ul {
+<<<<<<< HEAD
+      
+      list-style-type: none;
+      text-align: left;
+      margin: 0;
+      padding: 0;
+      /*overflow: hidden;*/
+      display: flex;
+      -webkit-justify-content: center;
+    }
+    nav li {
+      float:right;
+    }
+
+    nav li a {
+      color: black;
+      display: block;
+      padding: 10px 10px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav li a:hover:not(.active) {
+        background-color: darkslategray;
+    }
+    .active {
+        background-color: #4CAF50;
+    }
+=======
 
     list-style-type: none;
     text-align: left;
@@ -50,6 +99,7 @@ nav li a:hover:not(.active) {
 .active {
     background-color: #4CAF50;
 }
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 
 /*#search_bar {
 	padding: 3px;
@@ -57,6 +107,11 @@ nav li a:hover:not(.active) {
 	border-radius: 5px;
 	border: solid 1px gray;
 	width: 300px;
+<<<<<<< HEAD
+	
+=======
+
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }*/
 
 #search_bar_big {
@@ -64,11 +119,13 @@ nav li a:hover:not(.active) {
     padding: 3px;
     border-radius: 5px;
     border: solid 1px gray;
-    height: 50px;
+    height: 20px;
     width: 500px;
-    margin: auto;
+
 }
 
+<<<<<<< HEAD
+=======
 /* TODO: Handles look of result table from searching a book, see search.php */
 #search_result {
 
@@ -79,37 +136,44 @@ nav li a:hover:not(.active) {
 
 }
 
-#login_form {
-    width: 100%;
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
+#loginform {
+    width: 300px;
     height: 100%;
-    margin:  auto;
     padding: 10px 10px;
-}
-
-#signup_form {
-    width: 100%;
-    height: 100%;
-    margin:  auto;
-    padding: 10px 10px;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 .form_input {
     margin-right: 10px;
+<<<<<<< HEAD
+	padding: 3px;
+	border-radius: 5px;
+	border: solid 1px gray;
+=======
     padding: 3px;
     border-radius: 5px;
     border: solid 1px gray;
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
-
 
 .form_button {
     color: darkslategray;
+<<<<<<< HEAD
+	background-color:  cadetblue;
+	border-radius: 5px;
+	padding: 5px;
+    margin-right: 10px;
+	text-decoration: none;
+	border: none;
+=======
     background-color:  cadetblue;
     border-radius: 5px;
     padding: 5px;
-    margin-right: 1px;
+    margin-right: 10px;
     text-decoration: none;
     border: none;
-    width: 100px;
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
 
 .form_button:hover {
@@ -118,9 +182,40 @@ nav li a:hover:not(.active) {
 }
 
 #id {
+<<<<<<< HEAD
+/* The id selector uses the id attribute of an HTML element to select a specific element. */
+}
+
+.class {
+/* The class selector selects elements with a specific class attribute. */
+=======
     /* The id selector uses the id attribute of an HTML element to select a specific element. */
 }
 
 .class {
     /* The class selector selects elements with a specific class attribute. */
+>>>>>>> 5479a523467596e3c894032b31d055e75eadf235
 }
+
+.error {
+    color: red;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+    text-align: center;
+}
+
+h1 {
+}
+
+p {
+
+}
+
+div
