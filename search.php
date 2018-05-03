@@ -59,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         $items = $parse['items'];
 
         // TODO: Display the table with proper formatting and css (e.g. https://www.youtube.com/watch?v=bJ5K7IERMRE)
-        echo "<div id='search_result'>";
+        echo "<table id='search_result'>";
         echo "Found {$total_items} items <br />";
 
         foreach ($items as $item) {
-            echo "<div id='search_result_row'>";    // TODO
+            echo "<tr>";
 
             // Volume info: https://developers.google.com/books/docs/v1/reference/volumes
             // Suppress any runtime error that may occur when info does not exist in Google's database
@@ -79,15 +79,20 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             $thumbnail = @$item['volumeInfo']['imageLinks']['thumbnail']; #image link for thumbnail size ~300pixels
             $previewLink = @$item['volumeInfo']['previewLink'];  #URL to preview this volume in Google Books
 
-            echo "<hr>";
+            //echo "<hr>";
             // Display thumbnail with preview link
+            echo "<td>";
             echo "<a href='{$previewLink}' target='_blank'><img src='{$thumbnail}'></a><br />";
+            echo "</td>";
             // Display title
+            echo "<td>";
             echo "<b>{$title}</b><br />";
             // Display author(s)
             $author_list = "";
-            foreach ($authors as $author) {
-                $author_list .= "{$author}, ";
+            if (@count($authors) > 0) {
+                foreach (@$authors as $author) {
+                    $author_list .= "{$author}, ";
+                }
             }
             $author_list = trim($author_list, ", ");
             echo "by: {$author_list}";
@@ -102,15 +107,15 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 echo "<form method='post'>";
                 echo "<input type='hidden' name='book_id' value='{$id}'>";
                 echo "<input type='hidden' name='book_title' value='{$title}'>";
-                echo "<input type='submit' value='Add to Trade List' formaction='trade_list.php' name='add_trade'>";
-                echo "<input type='submit' value='Add to Wish List' formaction='wish_list.php' name='add_wish'>";
+                echo "<input type='submit' value='Add to Trade List' formaction='trade_list.php' name='edit_trade'>";
+                echo "<input type='submit' value='Add to Wish List' formaction='wish_list.php' name='edit_wish'>";
                 echo "</form>";
                 echo "</div>";
             }
-
-            echo "</div>";  // div id=search_result_row
+            echo "</td>";
+            echo "</tr>";
         }
-        echo "</div>";  // div id=search_result
+        echo "</table>";
     }
 }
 ?>
