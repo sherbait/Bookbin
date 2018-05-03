@@ -141,7 +141,7 @@
     }
 ?>
 
-<form class="form-horizontal" id="signup_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+<form class="form-horizontal mt-3 mx-5" id="signup_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
     <!-- SIGN UP FORM CODE HERE -->
     <div class="form-row">
         <label class="control-label col-sm-2" for="username">* Username:</label>
