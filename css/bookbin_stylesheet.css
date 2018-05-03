@@ -1,6 +1,6 @@
-<<<<<<< HEAD
+<<<<<<<  HEAD,
 html,body { 
-      background-color: ;   
+      background-color: ;
       -webkit-background-size: cover;
       -moz-background-size: cover;
       -o-background-size: cover;
@@ -12,8 +12,9 @@ html,body {
 	
 
 #bookbin_logo {
-	width: 100px;
+    width: 100px;
     height: auto;
+}
 	
 =======
 html,body {
@@ -194,6 +195,20 @@ nav li a:hover:not(.active) {
 .class {
     /* The class selector selects elements with a specific class attribute. */
 >>>>>>> 5479a523467596e3c894032b31d055e75eadf235
+}
+
+.error {
+    color: red;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+    text-align: center;
 }
 
 h1 {

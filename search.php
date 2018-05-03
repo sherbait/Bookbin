@@ -66,17 +66,18 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             echo "<div id='search_result_row'>";    // TODO
 
             // Volume info: https://developers.google.com/books/docs/v1/reference/volumes
-            //$selfLink = $item['selfLink'];   #Google URL to this resource
-            $id = $item['id']; #unique identifier for this
-            $title = $item['volumeInfo']['title'];  #volume title
-            $authors = $item['volumeInfo']['authors']; #the names of authors and/or editors for this volume -> list
-            //$publisher = $item['volumeInfo']['publisher'];  #publisher of this volume
-            $publishedDate = $item['volumeInfo']['publishedDate'];  #date of publication
-            $description = $item['volumeInfo']['description'];  #synopsis of this volume
-            //$averageRating = $item['volumeInfo']['averageRating']; #mean review rating for this volume (min=1.0,max=5.0)
-            //$ratingsCount = $item['volumeInfo']['ratingsCount']; #number of review ratings for this volume
-            $thumbnail = $item['volumeInfo']['imageLinks']['thumbnail']; #image link for thumbnail size ~300pixels
-            $previewLink = $item['volumeInfo']['previewLink'];  #URL to preview this volume in Google Books
+            // Suppress any runtime error that may occur when info does not exist in Google's database
+            $selfLink = @$item['selfLink'];   #Google URL to this resource
+            $id = @$item['id']; #unique identifier for this
+            $title = @$item['volumeInfo']['title'];  #volume title
+            $authors = @$item['volumeInfo']['authors']; #the names of authors and/or editors for this volume -> list
+            $publisher = @$item['volumeInfo']['publisher'];  #publisher of this volume
+            $publishedDate = @$item['volumeInfo']['publishedDate'];  #date of publication
+            $description = @$item['volumeInfo']['description'];  #synopsis of this volume
+            $averageRating = @$item['volumeInfo']['averageRating']; #mean review rating for this volume (min=1.0,max=5.0)
+            $ratingsCount = @$item['volumeInfo']['ratingsCount']; #number of review ratings for this volume
+            $thumbnail = @$item['volumeInfo']['imageLinks']['thumbnail']; #image link for thumbnail size ~300pixels
+            $previewLink = @$item['volumeInfo']['previewLink'];  #URL to preview this volume in Google Books
 
             echo "<hr>";
             // Display thumbnail with preview link
@@ -98,11 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
             if (isset($_SESSION["username"])) {
                 // Add trade and wish list buttons if user is logged in
                 echo "<div>";
-                echo "<form method='post' name='add'>";
+                echo "<form method='post'>";
                 echo "<input type='hidden' name='book_id' value='{$id}'>";
                 echo "<input type='hidden' name='book_title' value='{$title}'>";
-                echo "<input type='submit' value='Add to Wish List' formaction='./wish_list.php'>";
-                echo "<input type='submit' value='Add to Trade List' formaction='./trade_list.php'>";
+                echo "<input type='submit' value='Add to Trade List' formaction='trade_list.php' name='add_trade'>";
+                echo "<input type='submit' value='Add to Wish List' formaction='wish_list.php' name='add_wish'>";
                 echo "</form>";
                 echo "</div>";
             }

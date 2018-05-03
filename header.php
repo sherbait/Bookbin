@@ -6,6 +6,7 @@ session_start();
 <?php
 require "./php/settings.php";
 include "./php/bookpoints.php";
+include "./php/userid.php";
 ?>
 
 <!DOCTYPE html>
@@ -28,10 +29,10 @@ include "./php/bookpoints.php";
         echo "<div class=\"collapse navbar-collapse\" id=\"navbarNavAltMarkup\">";
         echo "<ul class=\"navbar-nav mr-auto mt-2 mt-lg-0\">";
         echo "<li class=\"nav-item\">";
-        echo "<a class=\"nav-item nav-link\" href=\"trade.php\">Trade</a>";
+        echo "<a class=\"nav-item nav-link\" href=\"trade_list.php\">Trade</a>";
         echo "</li>";
         echo "<li class=\"nav-item\">";
-        echo "<a class=\"nav-item nav-link\" href=\"wish.php\">Wish</a>";
+        echo "<a class=\"nav-item nav-link\" href=\"wish_list.php\">Wish</a>";
         echo "</li>";
         echo "</ul>";
         echo "<form class=\"form-inline my-2 my-lg-0\" action='search.php' id='form_search'>";
@@ -49,7 +50,7 @@ include "./php/bookpoints.php";
         // Don't show the nav bar during login or registration
     } else {
         echo "<div class=\"navbar-nav\">";
-        // Search bar: search name must be "term"
+        // Search bar: <search name= must be "term">
         echo "<form class=\"form-inline my-2 my-lg-0\" action='search.php' id='form_search'>";
         echo "<input class=\"form_input\" type='search' placeholder=\"Search books...\" aria-label=\"Search\" name='term' id='form_search_term'>";
         echo "<button class=\"form_button\" type=\"submit\">Search</button>";
