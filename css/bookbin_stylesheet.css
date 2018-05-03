@@ -126,13 +126,23 @@ nav li a:hover:not(.active) {
 
 <<<<<<< HEAD
 =======
-/* TODO: Handles look of result table from searching a book, see search.php */
-#search_result {
+/* TODO: Handles look of result table from searching a book, see search.php
+    Use div instead of table if necessary
+*/
+table#search_result {
+    width: 100%;
+    border-spacing: 5px;
+    border: 1px solid black;
+    border-collapse: collapse;
 
 }
 
 /* TODO: handles look of each row in the search results table */
-#search_result_row {
+table#search_result tr:nth-child(even) {
+
+}
+
+table#search_result tr:nth-child(odd) {
 
 }
 
