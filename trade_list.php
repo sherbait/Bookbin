@@ -1,6 +1,10 @@
 <?php
 include "header.php";
 include "./php/session.php";
+
+/* Displays the trade list of the user.
+ * TODO fix back-button form resend
+ */
 ?>
 
 <?php
@@ -91,9 +95,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 echo "Something went wrong deleting the book. Please try again later.";
             }
         }
-
-        echo $book_google_id;
-        echo $book_title;
     }
 }
 
