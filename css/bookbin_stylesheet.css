@@ -1,5 +1,20 @@
-<<<<<<<  HEAD,
-=======
+HEAD,
+html,body { 
+      background-color: ;
+      -webkit-background-size: cover;
+      -moz-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+      padding: ;
+	  font-family: sans-serif;
+      
+    }
+	
+
+#bookbin_logo {
+    width: 100px;
+    height: auto;
+}
 html,body {
     /*background-color:  ; TODO */
     -webkit-background-size: cover;
@@ -159,6 +174,22 @@ table#search_result tr:nth-child(odd) {
 
 .error {
     color: red;
+}
+
+#footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    background-color: inherit;
+    color: inherit;
+    text-align: center;
+}
+
+h1 {
+}
+
+p {
 }
 
 #footer {
