@@ -75,6 +75,8 @@
 
 ?>
 
+
+
 <form class="form-horizontal" id="login_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
     <div>
         <div class="form-group">

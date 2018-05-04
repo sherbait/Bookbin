@@ -141,78 +141,104 @@
     }
 ?>
 
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+<form class="form-horizontal mt-3 mx-5" id="signup_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
     <!-- SIGN UP FORM CODE HERE -->
-    <div>
-        <label>* Username:</label>
-        <input type="text" name="username" value="<?php echo $username; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2" for="username">* Username:</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control form-control-sm col-sm-2" name="username" value="<?php echo $username; ?>">
+        </div>
         <span class="error"><?php echo $username_err; ?></span>
     </div>
-    <div>
-        <label>* Password:</label>
-        <input type="password" name="password" value="<?php echo $password; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Password:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control form-control-sm col-sm-2" name="password" value="<?php echo $password; ?>">
+        </div>
         <span class="error"><?php echo $password_err; ?></span>
     </div>
-    <div>
-        <label>* Confirm Password:</label>
-        <input type="password" name="confirm_password" value="<?php echo $confirm_password; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Confirm Password:</label>
+        <div class="col-sm-10">
+            <input type="password" class="form-control form-control-sm col-sm-2" name="confirm_password" value="<?php echo $confirm_password; ?>">
+        </div>
         <span class="error"><?php echo $confirm_password_err; ?></span>
     </div>
-    <div>
-        <label>* Email:</label>
-        <input type="text" name="email" value="<?php echo $email; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Email:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="email" value="<?php echo $email; ?>">
+            </div>
         <span class="error"><?php echo $email_err; ?></span>
     </div>
-    <div>
-        <label>* First Name:</label>
-        <input type="text" name="first_name" value="<?php echo $first_name; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* First Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="first_name" value="<?php echo $first_name; ?>">
+            </div>
         <span class="error"><?php echo $first_name_err; ?></span>
     </div>
-    <div>
-        <label>Middle Name:</label>
-        <input type="text" name="middle_name" value="<?php echo $middle_name ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">Middle Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="middle_name" value="<?php echo $middle_name ?>">
+            </div>
         <span class="error"><?php echo $middle_name_err; ?></span>
     </div>
-    <div>
-        <label>* Last Name:</label>
-        <input type="text" name="last_name" value="<?php echo $last_name; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Last Name:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="last_name" value="<?php echo $last_name; ?>">
+            </div>
         <span class="error"><?php echo $last_name_err; ?></span>
     </div>
-    <div>
-        <label>* Phone:</label>
-        <input type="text" name="phone" value="<?php echo $phone; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Phone:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="phone" value="<?php echo $phone; ?>">
+            </div>
         <span class="error"><?php echo $phone_err; ?></span>
     </div>
-    <div>
-        <label>* House/Bldg./Unit No.:</label>
-        <input type="text" name="address_no" value="<?php echo $address_no; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2"> House/Bldg./Unit No.:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="address_no" value="<?php echo $address_no; ?>">
+            </div>
         <span class="error"><?php echo $address_no_err; ?></span>
     </div>
-    <div>
-        <label>* Street/Subdivision:</label>
-        <input type="text" name="address_street" value="<?php echo $address_street; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Street/Subdivision:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="address_street" value="<?php echo $address_street; ?>">
+            </div>
         <span class="error"><?php echo $address_street_err; ?></span>
     </div>
-    <div>
-        <label>* City:</label>
-        <input type="text" name="address_city" value="<?php echo $address_city; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">* City:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="address_city" value="<?php echo $address_city; ?>">
+            </div>
         <span class="error"><?php echo $address_city_err; ?></span>
     </div>
-    <div>
-        <label>* Province:</label>
-        <select name="address_province">
-            <option value="Metro Manila">Metro Manila</option>
-        </select>
+    <div class="form-row">
+        <label class="control-label col-sm-2">* Province:</label>
+            <div class="col-sm-10">
+                <select name="address_province">
+                    <option value="Metro Manila">Metro Manila</option>
+                </select>
+            </div>
         <span class="error"><?php echo $address_province_err; ?></span>
     </div>
-    <div>
-        <label>Zip Code:</label>
-        <input type="text" name="address_zip" value="<?php echo $address_zip; ?>">
+    <div class="form-row">
+        <label class="control-label col-sm-2">Zip Code:</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control form-control-sm col-sm-2" name="address_zip" value="<?php echo $address_zip; ?>">
+            </div>
         <span class="error"><?php echo $address_zip_err; ?></span>
     </div>
-    <div>
-        <input type="submit" value="Submit">
-        <input type="reset" value="Reset">
+    <div class="form-row">
+        <input type="submit" class="form_button" value="Submit">
+        <input type="reset" class="form_button" value="Reset">
     </div>
     <p>Already have an account? <a href="login.php">Login</a></p>
 </form>

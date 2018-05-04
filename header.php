@@ -13,7 +13,7 @@ include "./php/userid.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="css/bookbin_stylesheet.css">
     <title>Bookbin</title>
 </head>
@@ -56,9 +56,9 @@ include "./php/userid.php";
         echo "<button class=\"form_button\" type=\"submit\">Search</button>";
         echo "</form>";
         // Login button
-        echo "<a class=\"nav-item nav-link\" href=\"login.php\"><input id=\"form_button\" name=\"submit\" value=\"Log In\" type=\"submit\"></a>";
+        echo "<a class=\"nav-item nav-link\" href=\"login.php\"><input class=\"form_button\" name=\"submit\" value=\"Log In\" type=\"submit\"></a>";
         // Register button
-        echo "<a class=\"nav-item nav-link\" href=\"register.php\"><input id=\"form_button\" name=\"submit\" value=\"Sign Up\" type=\"submit\"></a>";
+        echo "<a class=\"nav-item nav-link\" href=\"register.php\"><input class=\"form_button\" name=\"submit\" value=\"Sign Up\" type=\"submit\"></a>";
         echo "</div>";
     }
     ?>
