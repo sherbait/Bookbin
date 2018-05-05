@@ -13,7 +13,7 @@ include "./php/userid.php";
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" type="text/css" href="css/bookbin_stylesheet.css">
     <title>Bookbin</title>
 </head>
