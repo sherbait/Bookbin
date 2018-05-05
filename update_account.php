@@ -3,6 +3,7 @@
     include "./php/session.php";
     include "./php/user_info.php";
     include "./php/functions.php";
+    include "profile_sidebar.php";
 ?>
 
 <?php
@@ -67,43 +68,51 @@
     }
 
 ?>
-<h2>Update Account Information</h2>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-    <?php echo $message; ?>
-    <div>
-        <label>First Name:</label>
-        <input type="text" name="first_name" value="<?php echo $first_name; ?>">
-        <span class="error"><?php echo $first_name_err; ?></span>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <h2>Update Account Information</h2>
+            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                <?php echo $message; ?>
+                <div>
+                    <label>First Name:</label>
+                    <input type="text" name="first_name" value="<?php echo $first_name; ?>">
+                    <span class="error"><?php echo $first_name_err; ?></span>
+                </div>
+                <div>
+                    <label>Middle Name:</label>
+                    <input type="text" name="middle_name" value="<?php echo $middle_name; ?>">
+                    <span class="error"><?php echo $middle_name_err; ?></span>
+                </div>
+                <div>
+                    <label>Last Name:</label>
+                    <input type="text" name="last_name" value="<?php echo $last_name; ?>">
+                    <span class="error"><?php echo $last_name_err; ?></span>
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input type="email" name="email" value="<?php echo $email; ?>">
+                    <span class="error"><?php echo $email_err; ?></span>
+                </div>
+                <div>
+                    <label>Phone:</label>
+                    <input type="text" name="phone" value="<?php echo $phone; ?>">
+                    <span class="error"><?php echo $phone_err; ?></span>
+                </div>
+                <div>
+                    <label>Address:</label>
+                    <input type="text" name="address" value="<?php echo $address; ?>">
+                    <span class="error"><?php echo $address_err; ?></span>
+                </div>
+                <div>
+                    <input type="submit" value="Submit">
+                </div>
+            </form>
+        </div>
     </div>
-    <div>
-        <label>Middle Name:</label>
-        <input type="text" name="middle_name" value="<?php echo $middle_name; ?>">
-        <span class="error"><?php echo $middle_name_err; ?></span>
-    </div>
-    <div>
-        <label>Last Name:</label>
-        <input type="text" name="last_name" value="<?php echo $last_name; ?>">
-        <span class="error"><?php echo $last_name_err; ?></span>
-    </div>
-    <div>
-        <label>Email:</label>
-        <input type="email" name="email" value="<?php echo $email; ?>">
-        <span class="error"><?php echo $email_err; ?></span>
-    </div>
-    <div>
-        <label>Phone:</label>
-        <input type="text" name="phone" value="<?php echo $phone; ?>">
-        <span class="error"><?php echo $phone_err; ?></span>
-    </div>
-    <div>
-        <label>Address:</label>
-        <input type="text" name="address" value="<?php echo $address; ?>">
-        <span class="error"><?php echo $address_err; ?></span>
-    </div>
-    <div>
-        <input type="submit" value="Submit">
-    </div>
-</form>
+</div>
+
 
 <?php   include "footer.php"    ?>
 
