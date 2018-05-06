@@ -17,10 +17,43 @@
     </div>
     <div class="row text-center">
         <span class="border border-secondary col-sm-6">
-            <h2>Recently Requested</h2>
+            <table>
+                <h2>Recently Requested</h2>
+                <?php
+                    $books = array();
+
+                    $sql = "SELECT title FROM recently_added";
+                    if ($stmt=mysqli_prepare($conn, $sql)) {
+                        if (mysqli_stmt_execute($stmt)) {
+                            $result = mysqli_stmt_get_result($stmt);
+                            while($row = $result->fetch_assoc()) {
+                                echo "<tr><td>{$row['title']}</tr></td>";
+                            }
+                        }
+                    }
+                    mysqli_stmt_close($stmt);
+                ?>
+            </table>
         </span>
         <span class="border border-secondary col-sm-6">
-            <h2>Highly Requested</h2>
+            <table>
+                <h2>Highly Requested</h2>
+                <?php
+                $books = array();
+
+                $sql = "SELECT title FROM mostly_added";
+                if ($stmt=mysqli_prepare($conn, $sql)) {
+                    if (mysqli_stmt_execute($stmt)) {
+                        $result = mysqli_stmt_get_result($stmt);
+                        while($row = $result->fetch_assoc()) {
+                            echo "<tr><td>{$row['title']}</tr></td>";
+                        }
+                    }
+                }
+                mysqli_stmt_close($stmt);
+                ?>
+            </table>
+
         </span>
     </div>
 </div>
