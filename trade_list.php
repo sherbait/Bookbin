@@ -41,9 +41,6 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 $result = mysqli_stmt_get_result($stmt);
 
                 if ($result->num_rows > 0) {    // Should be 1 row if book exists since book_google_id is unique
-                    echo $book_google_id;
-                    echo $user_id;
-                    echo $result->num_rows;
                     $add_book_err = "Book already exists in your trade list";
                 }
             } else {
