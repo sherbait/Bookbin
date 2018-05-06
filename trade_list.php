@@ -30,17 +30,20 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // Check if the book exists in the user's trade list
         $sql = "SELECT * FROM (SELECT * FROM trade_item INNER JOIN trade_list ON trade_item.id=trade_list.trade_item_id
-              WHERE trade_list.user_id=?) AS user_trade_list WHERE google_id = ?";
+              WHERE trade_list.user_id=?) AS user_trade_list WHERE google_id=?";
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
             // Bind the variables
-            mysqli_stmt_bind_param($stmt, "ii", $user_id, $book_google_id);
+            mysqli_stmt_bind_param($stmt, "is", $user_id, $book_google_id);
             // Attempt to execute the statement
             if (mysqli_stmt_execute($stmt)) {
                 // Get the result
                 $result = mysqli_stmt_get_result($stmt);
 
                 if ($result->num_rows > 0) {    // Should be 1 row if book exists since book_google_id is unique
+                    echo $book_google_id;
+                    echo $user_id;
+                    echo $result->num_rows;
                     $add_book_err = "Book already exists in your trade list";
                 }
             } else {
@@ -54,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
             // Bind the variables
-            mysqli_stmt_bind_param($stmt, "ii", $user_id, $book_google_id);
+            mysqli_stmt_bind_param($stmt, "is", $user_id, $book_google_id);
             // Attempt to execute the statement
             if (mysqli_stmt_execute($stmt)) {
                 // Get the result
@@ -73,6 +76,9 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // Book doesn't exist in the user's trade list or wish list so add it
         if (empty($add_book_err)) {
+
+            mysqli_begin_transaction($conn);
+
             $sql = "INSERT into trade_item(google_id, title) VALUES(?,?)";
             // Store the trade_item.id generated from inserting into this table
             $trade_item_id = 0;
@@ -82,7 +88,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 if (mysqli_stmt_execute($stmt)) {
                     $trade_item_id = mysqli_insert_id($conn);
                 } else {
-                    echo "Something went wrong adding {$book_title} in the database. Please try again later.";
+                    echo "@trade_item: Something went wrong adding {$book_title} in your trade list. Please try again later.";
                 }
             }
             mysqli_stmt_close($stmt);
@@ -93,9 +99,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 if (mysqli_stmt_execute($stmt)) {
                     $add_book = "Successfully added";
                 } else {
-                    echo "Something went wrong adding {$book_title} in the database. Please try again later.";
+                    echo "@trade_list: Something went wrong adding {$book_title} in your trade list. Please try again later.";
                 }
             }
+            mysqli_commit($conn);
             mysqli_stmt_close($stmt);
         }
     } elseif ($_POST['edit_trade'] === "Delete from Trade List") {
@@ -121,7 +128,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 // Retrieve the updated user's trade list
 $sql = "SELECT * FROM trade_item INNER JOIN trade_list ON trade_item.id=trade_list.trade_item_id
-                WHERE trade_list.user_id=?";    // query to get the user's trade list
+                WHERE trade_list.user_id=? ORDER BY trade_item.title ASC";    // query to get the user's trade list
 
 if ($stmt = mysqli_prepare($conn, $sql)) {
     // Bind the variables

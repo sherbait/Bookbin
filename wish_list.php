@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
             // Bind the variables
-            mysqli_stmt_bind_param($stmt, "ii", $user_id, $book_google_id);
+            mysqli_stmt_bind_param($stmt, "is", $user_id, $book_google_id);
             // Attempt to execute the statement
             if (mysqli_stmt_execute($stmt)) {
                 // Get the result
@@ -50,7 +50,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
             // Bind the variables
-            mysqli_stmt_bind_param($stmt, "ii", $user_id, $book_google_id);
+            mysqli_stmt_bind_param($stmt, "is", $user_id, $book_google_id);
             // Attempt to execute the statement
             if (mysqli_stmt_execute($stmt)) {
                 // Get the result
@@ -69,6 +69,10 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
         // Book doesn't exist in the user's wish list or trade list so add it
         if (empty($add_book_err)) {
+
+            // Create a transaction since we're inserting into 2 tables
+            mysqli_begin_transaction($conn);
+
             $sql = "INSERT into wish_item(google_id, title) VALUES(?,?)";
             // Store the wish_item.id generated from inserting into this table
             $wish_item_id = 0;
@@ -92,6 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                     echo "Something went wrong adding {$book_title} in the database. Please try again later.";
                 }
             }
+            mysqli_commit($conn);
             mysqli_stmt_close($stmt);
         }
     } elseif ($_POST['edit_wish'] === "Delete from Wish List") {
@@ -117,7 +122,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
 // Retrieve the updated user's wish list
 $sql = "SELECT * FROM wish_item INNER JOIN wish_list ON wish_item.id=wish_list.wish_item_id
-                WHERE wish_list.user_id=?";    // query to get the user's wish list
+                WHERE wish_list.user_id=? ORDER BY wish_item.title ASC";    // query to get the user's wish list
 
 if ($stmt = mysqli_prepare($conn, $sql)) {
     // Bind the variables
