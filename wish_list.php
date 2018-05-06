@@ -43,10 +43,31 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
                 echo "Something went wrong retrieving your book list. Please try again later.";
             }
         }
+
+        // Check if the book exists in the user's trade list -- a book can only be in either trade or wish list
+        $sql = "SELECT * FROM (SELECT * FROM trade_item INNER JOIN trade_list ON trade_item.id=trade_list.trade_item_id
+              WHERE trade_list.user_id=?) AS user_trade_list WHERE google_id = ?";
+
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            // Bind the variables
+            mysqli_stmt_bind_param($stmt, "ii", $user_id, $book_google_id);
+            // Attempt to execute the statement
+            if (mysqli_stmt_execute($stmt)) {
+                // Get the result
+                $result = mysqli_stmt_get_result($stmt);
+
+                if ($result->num_rows > 0) {    // Should be 1 row if book exists since book_google_id is unique
+                    $add_book_err = "Book already exists in your trade list";
+                }
+            } else {
+                echo "Something went wrong retrieving your book list. Please try again later.";
+            }
+        }
+
         // Close the statement
         mysqli_stmt_close($stmt);
 
-        // Book doesn't exist in the user's wish list so add it
+        // Book doesn't exist in the user's wish list or trade list so add it
         if (empty($add_book_err)) {
             $sql = "INSERT into wish_item(google_id, title) VALUES(?,?)";
             // Store the wish_item.id generated from inserting into this table
