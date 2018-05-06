@@ -139,15 +139,15 @@ mysqli_close($conn);
     <div>
         <?php   // Populate the trade list table
             if (count($books) > 0) {
-                echo "<table>";
-
                 echo "Books in trade list: " . count($books);
-                echo "<tr>";
-                echo "<th>Title</th><th>Date Added</th><th>Condition</th><th>Action</th>";
-                echo "</tr>";
+                echo "<table class='table table-striped'>";
+                echo "<thead>";
+                echo "<tr><th scope='col'>Title</th><th scope='col'>Date Added</th><th scope='col'>Condition</th><th scope='col'>Action</th></tr>";
+                echo "</thead>";
                 foreach ($books as $book) {
+                    echo "<tbody>";
                     echo "<tr>";
-                    echo "<td>{$book['title']}</td>";
+                    echo "<th scope='row'>{$book['title']}</th>";
                     echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
                     echo "<td>{$book['condition']}</td>";
                     echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
@@ -159,6 +159,7 @@ mysqli_close($conn);
                                 </form>
                              </td>";
                     echo "</tr>";
+                    echo "</tbody>";
                 }
 
                 echo "</table>";

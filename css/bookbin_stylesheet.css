@@ -135,7 +135,6 @@ table#search_result tr:nth-child(odd) {
 
 .form_input {
     margin-right: 10px;
-    <<<<<<< HEAD
     padding: 3px;
     border-radius: 5px;
     border: solid 1px gray;
@@ -152,7 +151,7 @@ table#search_result tr:nth-child(odd) {
 }
 
 .form_button:hover {
-    background-color: darkslategray; /* Green */
+    background-color: darkslategray;
     color: white;
 }
 

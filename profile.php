@@ -6,10 +6,8 @@
 ?>
 
 <!-- Code here to display profile information. Select whichever is relevant for this page. -->
-<div class="container">
-    <div class="row">
-        <div class="col-sm-2"></div>
         <div class="col-sm-10">
+            <h1><?php echo $_SESSION["username"] . "'s Profile" ?></h1>
             <label>Username: </label><?php echo $username ?><br>
             <label>Bookpoints: </label><?php echo $bookpoint ?><br>
             <label>First Name: </label><?php echo $first_name ?><br>

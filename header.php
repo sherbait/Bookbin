@@ -43,7 +43,7 @@ include "./php/userid.php";
         echo "Hi, " . $_SESSION["username"] . ", BP: " . $_SESSION["bookpoint"] . " | ";
         echo "</span>";
         echo "<a href=\"profile.php\"><img class=\"nav_icon\" src=\"img/profile_placeholder.jpg\" alt=\"\profile pic\"></a>";
-        echo "<a href=\"notifications.php\"><img class=\"nav_icon\" src=\"img/bell2.png\" alt=\"\notification\"></a>";
+        echo "<a href=\"notification.php\"><img class=\"nav_icon\" src=\"img/bell2.png\" alt=\"\notification\"></a>";
         echo "<a class=\"nav-item nav-link\" href=\"logout.php\"><input class=\"form_button\" name=\"submit\" value=\"Log Out\" type=\"submit\"></a>";
         echo "</div>";
     } elseif ($_SERVER['REQUEST_URI'] === "/login.php" || $_SERVER['REQUEST_URI'] === "/register.php") {
