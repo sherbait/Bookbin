@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $book_google_id = $book_title = $condition = "";
 
     // Check if the user clicked the [Add to Trade List] button in search.php
-    if ($_POST['edit_trade'] === "Add to Trade List") {
+    if ($_POST['edit_trade'] === "I own this") {
 
         $book_google_id = $_POST['book_id'];
         $book_title = $_POST['book_title'];

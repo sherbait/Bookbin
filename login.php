@@ -79,6 +79,8 @@
 
 <form class="form-horizontal" id="login_form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
     <div>
+        <span class="error"><?php echo $username_err?></span>
+        <span class="error"><?php echo $password_err?></span>
         <div class="form-group">
             <label class="control-label" for="username">Username:</label>
             <div class="col-sm-3">

@@ -107,8 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 echo "<form method='post'>";
                 echo "<input type='hidden' name='book_id' value='{$id}'>";
                 echo "<input type='hidden' name='book_title' value='{$title}'>";
-                echo "<input type='submit' value='Add to Trade List' formaction='trade_list.php' name='edit_trade'>";
-                echo "<input type='submit' value='Add to Wish List' formaction='wish_list.php' name='edit_wish'>";
+                echo "<input type='submit' value='I own this' formaction='trade_list.php' name='edit_trade'>";
+                echo "<input type='submit' value='I want to read this' formaction='wish_list.php' name='edit_wish'>";
                 echo "</form>";
                 echo "</div>";
             }

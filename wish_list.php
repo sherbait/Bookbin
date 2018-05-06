@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $book_google_id = $book_title = $condition = "";
 
     // Check if the user clicked the [Add to Wish List] button in search.php
-    if ($_POST['edit_wish'] === "Add to Wish List") {
+    if ($_POST['edit_wish'] === "I want to read this") {
 
         $book_google_id = $_POST['book_id'];
         $book_title = $_POST['book_title'];

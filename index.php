@@ -6,7 +6,8 @@
 <div class="container">
     <div class="row">
         <div class="col"><h1>What is Bookbin?</h1></div>
-        <div class="col"><h2> Bookin is Philippine-based book swapping platform for book lovers.</h2></div>
+        <br>
+        <div class="col"><h2> Bookbin is Philippine-based book swapping platform for book lovers.</h2></div>
     </div>
     <div class="row">
         <div class="col-sm-12">
@@ -22,7 +23,7 @@
                 <?php
                     $books = array();
 
-                    $sql = "SELECT title FROM recently_added";
+                    $sql = "SELECT title FROM recently_requested";
                     if ($stmt=mysqli_prepare($conn, $sql)) {
                         if (mysqli_stmt_execute($stmt)) {
                             $result = mysqli_stmt_get_result($stmt);
@@ -41,7 +42,7 @@
                 <?php
                 $books = array();
 
-                $sql = "SELECT title FROM mostly_added";
+                $sql = "SELECT title FROM mostly_requested";
                 if ($stmt=mysqli_prepare($conn, $sql)) {
                     if (mysqli_stmt_execute($stmt)) {
                         $result = mysqli_stmt_get_result($stmt);
