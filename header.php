@@ -42,6 +42,18 @@ include "./php/userid.php";
                         <li><a href="recently_requested.php">Recently Requested Books</a></li>
                     </ul>
                 </li>
+                <?php
+                if (isset($_SESSION["username"])) {
+                    echo "<li class=\"dropdown\">
+                    <a class=\"dropdown-toggle\" data-toggle=\"dropdown\" href=\"#\">My Lists
+                        <span class=\"caret\"></span></a>
+                    <ul class=\"dropdown-menu\">
+                        <li><a href=\"trade_list.php\">Trade List</a></li>
+                        <li><a href=\"wish_list.php\">Wish List</a></li>
+                    </ul>
+                </li>";
+                }
+                ?>
                 <li><a href="#">FAQ</a></li>
                 <li><a href="#">Contact</a></li>
             </ul>
