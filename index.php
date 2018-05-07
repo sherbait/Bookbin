@@ -6,9 +6,10 @@ include "php/functions.php";
 <div class="container-fluid">
     <div class="jumbotron text-center mx-sm-5">
         <h1>What is Bookbin?</h1>
-        <p>Bookbin is a Philippine-based book swapping platform for book lovers!</p>
-        <blockquote>Got plenty of books you have already finished reading and willing to give away?<br>Why not trade them on Bookbin for books that you want to read?<BR>
-            You don't need to pay for books. You only need to pay for shipping fees.</blockquote>
+        <p>Bookbin is a Philippine-based online book swapping platform for book lovers!</p>
+        <blockquote>Got plenty of books you have already finished reading and are willing to give away?<br>
+            Why not give them away on Bookbin in exchange for books that you want to read?<br>
+            Join us for free!</blockquote>
 
 
         <?php
@@ -19,11 +20,12 @@ include "php/functions.php";
 </div>
 
 <div class="container-fluid">
-    <div class="jumbotron text-center">
-        <h1>How It Works</h1>
-        <h2>Step 1: Create an account.</h2>
-        <h2>Step 2: Search for boooks to add to your Traade and Wish List..</h2>
-        <h2>Step 4: Find a match for your requested book.</h2>
+    <div class="row text-center">
+        <h2>How It Works</h2>
+        <h3>1: Search for books to add to your Trade and Wish Lists.</h3>
+        <h3>2: Get notified about trade requests for your books.</h3>
+        <h3>3: Mail your books and earn book points.</h3>
+        <h3>4: Use your book points to request for books in your Wish List.</h3>
     </div>
 </div>
 
