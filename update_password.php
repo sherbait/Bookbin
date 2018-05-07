@@ -57,28 +57,73 @@
     }
 
 ?>
-<h2>Change Password</h2>
-<form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
-    <?php echo $message; ?>
-    <div>
-        <label>Old Password:</label>
-        <input type="password" name="old_password">
-        <span class="error"><?php echo $old_password_err; ?></span>
+
+<div class="container-fluid text-center">
+    <div class="row content">
+        <div class="col-sm-2 sidenav">
+            <div class="list-group">
+                <a href="profile.php" class="list-group-item">My Profile</a>
+                <a href="#" class="list-group-item">Edit Personal Info</a>
+                <a href="update_password.php" class="list-group-item active">Change Password</a>
+                <a href="trade_history.php" class="list-group-item">Trade History</a>
+            </div>
+        </div>
+        <div class="col-sm-10 text-left">
+            <h2>Change Password</h2>
+            <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
+                <?php
+                if (!empty($message)) {
+                    echo "<div class='form-group'></div>";
+                    echo "<div class='form-group'>";
+                    echo "<span class='alert alert-success col-sm-offset-4'>{$message}</span>";
+                    echo "</div>";
+                    echo "<div class='form-group'></div>";
+                }
+                ?>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="old_password">Old Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="old_password"
+                               placeholder="Enter old password" name="old_password">
+                    </div>
+                    <?php
+                    if (!empty($old_password_err))
+                        echo "<span class='alert alert-danger'>{$old_password_err}</span>";
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="new_password">New Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="new_password"
+                               placeholder="Enter new password" name="new_password">
+                    </div>
+                    <?php
+                    if (!empty($new_password_err))
+                        echo "<span class='alert alert-danger'>{$new_password_err}</span>";
+                    ?>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-sm-2" for="confirm_new_password">Confirm New Password:</label>
+                    <div class="col-sm-6">
+                        <input type="password" class="form-control" id="confirm_new_password"
+                               placeholder="Enter new password again" name="confirm_new_password">
+                    </div>
+                    <?php
+                    if (!empty($confirm_new_password_err))
+                        echo "<span class='alert alert-danger'>{$confirm_new_password_err}</span>";
+                    ?>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-offset-4 col-sm-10">
+                        <input class="btn btn-default" type="submit" value="Submit">
+                        <input class="btn btn-default" type="reset" value="Reset">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-sm-2"></div>
     </div>
-    <div>
-        <label>New Password:</label>
-        <input type="password" name="new_password">
-        <span class="error"><?php echo $new_password_err; ?></span>
-    </div>
-    <div>
-        <label>Confirm New Password:</label>
-        <input type="password" name="confirm_new_password">
-        <span class="error"><?php echo $confirm_new_password_err; ?></span>
-    </div>
-    <div>
-        <input type="submit" value="Submit">
-    </div>
-</form>
+</div>
 
 <?php   include "footer.php"    ?>
 

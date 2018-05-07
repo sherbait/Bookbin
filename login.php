@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $_SESSION["username"] = $username;
 
                             // No error encountered, redirect the user
-                            header("location: index.php");
+                            header("location: profile.php");
                         } else {
                             $password_err = "Invalid username and/or password.";
                         }
@@ -82,9 +82,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <h2 class="col-sm-offset-1">Login</h2>
             <form class="form-horizontal" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]) ?>" method="POST">
                 <?php
-                if (isset($_SERVER['HTTP_REFERER']) && $_SERVER['HTTP_REFERER'] === '/register.php') {
-                    echo "<div class='alert alert-success'>You have successfully created an account.</div>";
-                }
                 if (!empty($username_err)) {
                     echo "<div class='alert alert-danger'>{$username_err}</div>";
                 }

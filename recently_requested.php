@@ -13,7 +13,6 @@ include "php/functions.php";
                 <th>#</th>
                 <th>Image</th>
                 <th>Title</th>
-
                 <th>Description</th>
             </tr>
             </thead>
