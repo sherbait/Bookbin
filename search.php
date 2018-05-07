@@ -12,15 +12,15 @@ include "./php/functions.php";
  */
 
 // Search a volume by sending an HTTP GET request to this URL
-$base = "https://www.googleapis.com/books/v1/volumes?q=";
+/*$base = "https://www.googleapis.com/books/v1/volumes?q=";
 
-/* ADVANCED SEARCH RESULT VARIABLES */
+// ADVANCED SEARCH RESULT VARIABLES
 // Find a volume by title, that contains the text appended to this variable
 $intitle = "intitle:";
 // Find a volume by author, that contains the text appended to this variable
 $inauthor = "inauthor:";
 // Find a volume by ISBN
-$isbn = "isbn:";
+$isbn = "isbn:";*/
 
 // Search result variables
 $total_items = 0;   #number of search results
@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     if (empty($terms)) {
         echo "<div><h3>Must enter a search value</h3></div>";   // TODO: need proper css
     } else {
-        $terms = urlencode($terms);
+        /*$terms = urlencode($terms);
         $url = $base . $terms . "&key=" . API_KEY;
 
         //Initialize cURL.
@@ -51,10 +51,10 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
         //Close the cURL handle.
         curl_close($ch);
         //Print the data out onto the page.
-        //echo $data;
+        //echo $data;*/
 
         // Parse the json file sent by Google Books API
-        $parse = json_decode($data, true);
+        $parse = json_decode(query_google_books($terms, API_KEY), true);
         $total_items = $parse['totalItems'];
         $items = $parse['items'];
 

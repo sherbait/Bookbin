@@ -23,6 +23,47 @@
 
 set_error_handler("custom_error", E_NOTICE);*/
 
+function get_volume_from_google_books($volume_id, $token) {
+    $base = "https://www.googleapis.com/books/v1/volumes/";
+    $url = $base . $volume_id . "?key=" . $token;
+
+    //Initialize cURL.
+    $ch = curl_init();
+    //Set the URL that you want to GET by using the CURLOPT_URL option.
+    curl_setopt($ch, CURLOPT_URL, $url);
+    //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    //Execute the request.
+    $data = curl_exec($ch);
+    //Close the cURL handle.
+    curl_close($ch);
+    //Return the data
+    return $data;
+}
+
+function query_google_books($query, $token) {
+    $base = "https://www.googleapis.com/books/v1/volumes?q=";
+    $terms = urlencode($query);
+    $url = $base . $terms . "&key=" . API_KEY;
+
+    //Initialize cURL.
+    $ch = curl_init();
+    //Set the URL that you want to GET by using the CURLOPT_URL option.
+    curl_setopt($ch, CURLOPT_URL, $url);
+    //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
+    curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
+    //Execute the request.
+    $data = curl_exec($ch);
+    //Close the cURL handle.
+    curl_close($ch);
+    //Return the json data sent by Google.
+    return $data;
+}
+
 // Removes whitespaces and backslashes, also sanitizes data
 function clean_input($input) {
     $input = trim($input);

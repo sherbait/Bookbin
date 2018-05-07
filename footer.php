@@ -1,6 +1,16 @@
 <!-- start footer -->
-        <footer id="footer">
-            A Web Information Systems Project | UP Open University | 2018
-        </footer>
-    </body>
+
+    <footer>
+        <div class="container">
+            <p class="text-muted text-center">&copy; 2018 A Web Information Systems Project | UP Open University</p>
+        </div>
+    </footer>
+
+
+<script>
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip();
+    });
+</script>
+</body>
 </html>
