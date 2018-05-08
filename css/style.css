@@ -6,7 +6,8 @@ html {
 }
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
+    margin-bottom: 40px;
+    /*background-color: floralwhite;*/
 }
 footer {
     position: absolute;
@@ -14,6 +15,14 @@ footer {
     width: 100%;
     /* Set the fixed height of the footer here */
     height: 40px;
+}
+
+.navbar-default {
+    background-color: whitesmoke;
+}
+
+.jumbotron {
+    background-image: url(../img/4471.jpg);
 }
 
 #bookbin_logo {
@@ -24,6 +33,22 @@ footer {
 #profile_thumb {
     width: 100%;
     height: auto;
+}
+
+span.glyphicon-search {
+    font-size: 50px;
+}
+
+span.glyphicon.glyphicon-bell {
+    font-size: 50px;
+}
+
+span.glyphicon.glyphicon-send {
+    font-size: 50px;
+}
+
+span.glyphicon-bitcoin {
+    font-size: 50px;
 }
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
