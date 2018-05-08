@@ -2,7 +2,6 @@
     include "header.php";
     include "./php/session.php";
     include "./php/user_info.php";
-    include "profile_sidebar.php";
 ?>
 
 <!-- Code here to display profile information. Select whichever is relevant for this page. -->

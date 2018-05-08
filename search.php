@@ -11,17 +11,6 @@ include "./php/functions.php";
  * TODO: advanced search
  */
 
-// Search a volume by sending an HTTP GET request to this URL
-/*$base = "https://www.googleapis.com/books/v1/volumes?q=";
-
-// ADVANCED SEARCH RESULT VARIABLES
-// Find a volume by title, that contains the text appended to this variable
-$intitle = "intitle:";
-// Find a volume by author, that contains the text appended to this variable
-$inauthor = "inauthor:";
-// Find a volume by ISBN
-$isbn = "isbn:";*/
-
 // Search result variables
 $total_items = 0;   #number of search results
 $items = array();   #will hold the books found in the search
@@ -35,24 +24,6 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
     if (empty($terms)) {
         echo "<div><h3>Must enter a search value</h3></div>";   // TODO: need proper css
     } else {
-        /*$terms = urlencode($terms);
-        $url = $base . $terms . "&key=" . API_KEY;
-
-        //Initialize cURL.
-        $ch = curl_init();
-        //Set the URL that you want to GET by using the CURLOPT_URL option.
-        curl_setopt($ch, CURLOPT_URL, $url);
-        //Set CURLOPT_RETURNTRANSFER so that the content is returned as a variable.
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        //Set CURLOPT_FOLLOWLOCATION to true to follow redirects.
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
-        //Execute the request.
-        $data = curl_exec($ch);
-        //Close the cURL handle.
-        curl_close($ch);
-        //Print the data out onto the page.
-        //echo $data;*/
-
         // Parse the json file sent by Google Books API
         $parse = json_decode(query_google_books($terms, API_KEY), true);
         $total_items = $parse['totalItems'];
@@ -107,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] === "GET") {
                 echo "<form method='post'>";
                 echo "<input type='hidden' name='book_id' value='{$id}'>";
                 echo "<input type='hidden' name='book_title' value='{$title}'>";
+                echo "<input type='hidden' name='book_url' value='{$previewLink}'>";
                 echo "<input type='submit' value='I own this' formaction='trade_list.php' name='edit_trade'>";
                 echo "<input type='submit' value='I want to read this' formaction='wish_list.php' name='edit_wish'>";
                 echo "</form>";

@@ -63,8 +63,8 @@
         <div class="col-sm-2 sidenav">
             <div class="list-group">
                 <a href="profile.php" class="list-group-item">My Profile</a>
-                <a href="#" class="list-group-item">Edit Personal Info</a>
-                <a href="update_password.php" class="list-group-item active">Change Password</a>
+                <a href="update_account.php" class="list-group-item">Edit Personal Info</a>
+                <a href="#" class="list-group-item active">Change Password</a>
                 <a href="trade_history.php" class="list-group-item">Trade History</a>
             </div>
         </div>
