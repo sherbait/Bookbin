@@ -105,11 +105,12 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         $book_title = $_POST['book_title'];
 
         // Prepare the statement
-        $sql = "DELETE FROM wish_item WHERE google_id=?";
+        $sql = "DELETE wi, wl  FROM wish_item wi JOIN wish_list wl 
+            ON wi.id = wl.wish_item_id WHERE wi.google_id=? AND wl.user_id=?";
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
             // Bind the variable
-            mysqli_stmt_bind_param($stmt, "s", $book_google_id);
+            mysqli_stmt_bind_param($stmt, "si", $book_google_id, $user_id);
 
             // Execute the statement
             if (mysqli_stmt_execute($stmt)) {
