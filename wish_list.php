@@ -9,6 +9,7 @@ $add_book_err = "";
 $add_book = $delete_book = "";
 
 $books = array();   #holds the books from the database that the user has added to their wish list
+$pending_books = array();   #holds the books from the user's wish list that user expects to receive
 $username = $_SESSION['username'];
 $user_id = $_SESSION['user_id'];   #This is a unique identifier for this user in the database
 
@@ -138,8 +139,13 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
         if ($result->num_rows > 0) {
             // The user has a wish list, retrieve the book data
             while ($row = $result->fetch_assoc()) {
-                // Store the book
-                $books[] = $row;
+                // Store a book with pending transaction
+                if ($row['status'] === 1) {
+                    $pending_books[] = $row;
+                } else {
+                    // Store the book
+                    $books[] = $row;
+                }
             }
         }
     } else {
@@ -148,7 +154,6 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
 }
 // Close the statement
 mysqli_stmt_close($stmt);
-mysqli_close($conn);
 ?>
 
 <div class="container">
@@ -174,8 +179,75 @@ mysqli_close($conn);
         echo $delete_book;
         echo "</div>";
     }
+    if (count($pending_books) === 0 && count($books) === 0) {
+        echo "<div class='alert alert-info'>Your wish list is empty. Add books by using the search bar above.</div>";
+    }
     ?>
-    <!-- TODO add table for pending wishes -->
+    <!-- table for pending wishes -->
+    <table class="table table-striped table-responsive text-info">
+        <?php
+        if (count($pending_books) > 0) {
+            // Get this user's pending trade info
+            $pending_trade_info = array();
+            $sql = "SELECT * FROM match_info WHERE receiver=?";
+            if ($stmt = mysqli_prepare($conn, $sql)) {
+                mysqli_stmt_bind_param($stmt, "s", $username);
+                if (mysqli_stmt_execute($stmt)) {
+                    $result = mysqli_stmt_get_result($stmt);
+                    if ($result->num_rows > 0) {
+                        while ($row = $result->fetch_assoc()) {
+                            $pending_trade_info[] = $row;
+                        }
+                    }
+                }
+            }
+
+            echo "<div class='container text-center text-info'>";
+            echo "<h3><strong>Matched Wishes</strong></h3>";
+            echo "<p>Good news, your books are on their way!</p>";
+            echo "</div>";
+            $count = 1;
+            // Header
+            echo "<thead>";
+            echo "<tr>";
+            echo "<th>#</th>";
+            echo "<th>Title</th>";
+            echo "<th>Date Added</th>";
+            echo "<th>Status</th>";
+            echo "<th>Action</th>";
+            echo "</tr>";
+            echo "</thead>";
+            // Content
+            echo "<tbody>";
+            foreach ($pending_trade_info as $pending_trade) {
+                // Only display books that are in transit
+                if ($pending_trade['waybill_status'] === 'receipt accepted') {
+
+                    echo "<tr>";
+                    echo "<td>{$count}</td>";
+                    // Display title of the book
+                    echo "<td>{$pending_trade['title']}</td>";
+                    // Display date the book was added
+                    echo "<td>" . date_format(date_create($pending_trade['date_wisher_added']), "m/d/y") . "</td>";
+                    // Display the status of the book
+                    if ($pending_trade['report_status'] === 'no report') {
+                        echo "<td>in transit</td>";
+                    } else {
+                        echo "<td>{$pending_trade['report_status']}</td>";
+                    }
+                    // Possible actions once user receives the book: accept, reject
+                    echo "<td><abbr title='Book has arrived in good condition'>accept</abbr> | 
+                                <abbr title='Book has arrived in bad condition'>reject</abbr></td>";
+                    // TODO what to do if user accepts/rejects the book
+                    echo "</tr>";
+                    $count++;
+                }
+            }
+            echo "</tbody>";
+        }
+        ?>
+    </table>
+    <br><br>
 
     <!-- table for unmatched wish list -->
     <table class="table table-striped table-responsive">
@@ -211,11 +283,12 @@ mysqli_close($conn);
                 $count++;
             }
             echo "</tbody>";
-        } else {
-            echo "<div class='alert alert-info'>Your wish list is empty. Add books by using the search bar above.</div>";
         }
+
         ?>
     </table>
 </div>
 
-<?php   include "footer.php"    ?>
+<?php
+mysqli_close($conn);
+include "footer.php"    ?>

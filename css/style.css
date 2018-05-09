@@ -25,6 +25,9 @@ footer {
     background-image: url(../img/4471.jpg);
     background-color: white;
 }
+.tooltip-inner {
+    max-width: 320px !important;
+}
 
 #bookbin_logo {
     width: 100px;
