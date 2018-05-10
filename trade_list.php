@@ -155,6 +155,24 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
         }
         mysqli_stmt_close($stmt);
     }
+
+    // User wants to accept the trade
+    if (isset($_POST['accept_trade'])) {
+        $match_id = $_POST['match_id'];
+        $google_id = $_POST['book_id'];
+
+        // Execute the stored procedure that accepts this trade
+        $sql = "CALL AcceptTrade(?, ?)";
+
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "is",$match_id,$google_id);
+            if (mysqli_stmt_execute($stmt)) {
+                echo "SUCESS";
+            } else
+                echo "FAILED EXECUTION";
+        }
+        mysqli_stmt_close($stmt);
+    }
 }
 
 // Retrieve the updated user's trade list
@@ -173,12 +191,11 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
         if ($result->num_rows > 0) {
             // The user has a trade list, retrieve the book data
             while ($row = $result->fetch_assoc()) {
-                // Store a book with pending transaction
-                if ($row['status'] === 1) {
-                    $pending_books[] = $row;
-                } else {
-                    // Store the book
+                // Store a book with no pending transaction in the regular book array
+                if ($row['status'] === 0) {
                     $books[] = $row;
+                } else {
+                    $pending_books[] = $row;
                 }
             }
         }
@@ -223,133 +240,163 @@ mysqli_stmt_close($stmt);
         echo "<div class='alert alert-info'>Your trade list is empty. Add books by using the search bar above.</div>";
     }
     ?>
-    <!-- table for pending trades -->
-    <table class="table table-striped table-responsive text-info">
-        <?php
-        if (count($pending_books) > 0) {
-            // Get this user's pending trade info
-            $pending_trade_info = array();
-            $sql = "SELECT * FROM match_info WHERE sender=?";
-            if ($stmt = mysqli_prepare($conn, $sql)) {
-                mysqli_stmt_bind_param($stmt, "s", $username);
-                if (mysqli_stmt_execute($stmt)) {
-                    $result = mysqli_stmt_get_result($stmt);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $pending_trade_info[] = $row;
-                        }
+    <!-- display table for pending trades -->
+    <?php
+    if (count($pending_books) > 0) {
+        echo "<table class='table table-striped table-responsive text-info'>";
+        // Get this user's pending trade info
+        $pending_trade_info = array();
+        $sql = "SELECT * FROM match_info WHERE sender=? AND pending_trade!=0";
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "s", $username);
+            if (mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $pending_trade_info[] = $row;
                     }
                 }
             }
-
-            echo "<div class='container text-center text-info'>";
-            echo "<h3><strong>Pending Trades</strong></h3>";
-            echo "<p>Good news! We have found matches to your trade books.</p>";
-            echo "</div>";
-            $count = 1;
-            // Header
-            echo "<thead>";
-            echo "<tr>";
-            echo "<td>#</td>";
-            echo "<th>Title</th>";
-            echo "<th>Date Added</th>";
-            echo "<th>Condition</th>";
-            echo "<th>Status</th>";
-            echo "<th>Time Left</th>";
-            echo "<th>Action</th>";
-            echo "</tr>";
-            echo "</thead>";
-            // Content
-            echo "<tbody>";
-            foreach ($pending_trade_info as $pending_trade) {
-                echo "<tr>";
-                echo "<td>{$count}</td>";
-                // Display title of the book
-                echo "<td>{$pending_trade['title']}</td>";
-                // Display date the book was added
-                echo "<td>" . date_format(date_create($pending_trade['date_trader_added']), "m/d/y") . "</td>";
-                // Display condition of the book
-                echo "<td>{$pending_trade['send_condition']}</td>";
-                // Display the status of the book, countdown timer, and user action if applicable, if user has not accepted the trade request
-                if ($pending_trade['date_trader_accepted'] === NULL) {
-                    echo "<td>pending trade request</td>"; // The user needs to accept or reject the trade request first
-                    echo "<td><abbr title='This book will be removed from your trade list when timer ends'><span class='timer' data-end='";
-                    // Find the deadline time
-                    $match_date = date_create($pending_trade['date_matched']);
-                    date_add($match_date, date_interval_create_from_date_string("24 hours"));
-                    $end_date = date(DATE_RFC1123, date_timestamp_get($match_date));
-                    echo $end_date . "'></span></abbr></td>";
-                    // Display user action if timer has expired
-                    if ($match_date < date_create()) {
-                        echo "<td class='text-danger'>expired</td>";     // TODO remove this item from the user's trade list in the database
-                    } else {
-                        echo "<td><abbr title='Once accepted, you have 72 hours to upload a postage receipt'>accept</abbr> | 
-                                <abbr title='This book will be removed from your trade list'>reject</abbr></td>";
-                        // TODO give option to user to accept/reject trade request
-                    }
-                } else {    // User has accepted the trade request, what does he need to do?
-                    echo "<td>{$pending_trade['waybill_status']}</td>";
-                    // TODO determine time left and action
-                }
-                echo "</tr>";
-                $count++;
-            }
-            echo "</tbody>";
         }
-        ?>
-    </table>
-    <br><br>
-    <!-- table for unmatched trade list -->
-    <table class="table table-striped table-responsive">
-        <?php
-        if (count($books) > 0) {
-            echo "<div class='container text-center'>";
-            echo "<h3><strong>Books Owned</strong></h3>";
-            echo "<p>We are waiting to find a match for these books.</p>";
-            echo "</div>";
-            $count = 1;
-            // Headers
-            echo "<thead>";
+
+        echo "<div class='container text-center text-info'>";
+        echo "<h3><strong>Pending Trades</strong></h3>";
+        echo "<p>Good news! We have found matches to your trade books.</p>";
+        echo "</div>";
+        $count = 1;
+        // Header
+        echo "<thead>";
+        echo "<tr>";
+        echo "<td>#</td>";
+        echo "<th>Title</th>";
+        echo "<th>Date Added</th>";
+        echo "<th>Condition</th>";
+        echo "<th>Status</th>";
+        echo "<th>Time Left</th>";
+        echo "<th>Action</th>";
+        echo "</tr>";
+        echo "</thead>";
+        // Content
+        echo "<tbody>";
+        foreach ($pending_trade_info as $pending_trade) {
             echo "<tr>";
-            echo "<th>#</th>";
-            echo "<th>Title</th>";
-            echo "<th>Date Added</th>";
-            echo "<th class='text-center'>Condition</th>";
-            echo "<th class='text-center'>Action</th>";
+            echo "<td>{$count}</td>";
+            // Display title of the book
+            echo "<td>{$pending_trade['title']}</td>";
+            // Display date the book was added
+            echo "<td>" . date_format(date_create($pending_trade['date_trader_added']), "m/d/y") . "</td>";
+            // Display condition of the book
+            echo "<td>{$pending_trade['send_condition']}</td>";
+            // Display the status of the book, countdown timer, and user action if applicable, if user has not accepted the trade request
+            if ($pending_trade['date_trader_accepted'] === NULL) {
+                echo "<td>pending trade request</td>"; // The user needs to accept or reject the trade request first
+                echo "<td><abbr title='This book will be removed from your trade list when timer ends'><span class='timer' data-end='";
+                // Find the deadline time
+                $match_date = date_create($pending_trade['date_matched']);
+                date_add($match_date, date_interval_create_from_date_string("24 hours"));
+                $end_date = date(DATE_RFC1123, date_timestamp_get($match_date));
+                echo $end_date . "'></span></abbr></td>";
+                // Display user action if timer has expired
+                if ($match_date < date_create()) {
+                    echo "<td class='text-danger'>expired</td>";     // doesn't show since item is auto-removed from user's trade list
+                } else {
+                    /*echo "<td><abbr title='Once accepted, you have 72 hours to upload a postage receipt'>accept</abbr> |
+                                <abbr title='This book will be removed from your trade list'>reject</abbr></td>";*/
+                    echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
+                               <span>
+                                <input type='hidden' name='book_id' value='" . $pending_trade['google_id'] . "'>
+                                <input type='hidden' name='match_id' value='" . $pending_trade['id'] . "'>
+                                <abbr title='Accepting this trade request means sending this book away to its new home'>
+                                    <input type='submit' class='btn btn-danger btn-xs' name='accept_trade' value='Accept'>
+                                </abbr>
+                               </span></form>
+                             </td>";
+
+                }
+            } else {    // User has accepted the trade request, what does he need to do?
+                // echo "<td>{$pending_trade['waybill_status']}</td>";
+                echo "<td>trade accepted</td>";
+                echo "<td>-</td>";
+                echo "<td><div class='containter'><button type='button' class='btn btn-info btn-xs' 
+                    data-toggle='modal' data-target='#user_info' onclick='getUserInfo({$pending_trade['receiver_id']})'>Mail</button></div></td>";
+            }
             echo "</tr>";
-            echo "</thead>";
-            // Content
-            echo "<tbody>";
-            foreach ($books as $book) {
-                echo "<tr>";
-                echo "<td>{$count}</td>";
-                // Display title of the book
-                echo "<td class='col-md-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
-                // Display date the book was added
-                echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
-                // Display condition of the book
-                echo "<td class='col-md-2'><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
-                            <div class='form-group'>
+            $count++;
+        }
+        echo "</tbody>";
+        echo "</table>";
+        echo "<br><br>";
+    }
+    ?>
+    <div class="container">
+        <div class="modal fade" id="user_info" role="dialog">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                        <h4 class="modal-title">Mailing Information</h4>
+                        <small>This is the name, contact, and address of the user who requested for your book.</small>
+                    </div>
+                    <div class="modal-body">
+                        <div id="user_mail_info"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- display table for unmatched trade list -->
+    <?php
+    if (count($books) > 0) {
+        echo "<table class=\"table table-striped table-responsive\">";
+        echo "<div class='container text-center'>";
+        echo "<h3><strong>Books Owned</strong></h3>";
+        echo "<p>We are waiting to find others who would like to read these books.</p>";
+        echo "</div>";
+        $count = 1;
+        // Headers
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>#</th>";
+        echo "<th>Title</th>";
+        echo "<th>Date Added</th>";
+        echo "<th class='text-center'>Condition</th>";
+        echo "<th class='text-center'>Action</th>";
+        echo "</tr>";
+        echo "</thead>";
+        // Content
+        echo "<tbody>";
+        foreach ($books as $book) {
+            echo "<tr>";
+            echo "<td>{$count}</td>";
+            // Display title of the book
+            echo "<td class='col-sm-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
+            // Display date the book was added
+            echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
+            // Display condition of the book
+            echo "<td class='col-sm-2'><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
+                            <div>
                                 <input type='hidden' name='book_id' value='" . $book['google_id'] . "'>
-                                <select class='form-control' name='condition' onchange='this.form.submit()'>";
-                echo "<option value='new' ";
-                if ($book['condition'] === 'new') echo "selected";
-                echo ">new</option>";
-                echo "<option value='like new' ";
-                if ($book['condition'] === 'like new') echo "selected";
-                echo ">like new</option>";
-                echo "<option value='very good' ";
-                if ($book['condition'] === 'very good') echo "selected";
-                echo ">very good</option>";
-                echo "<option value='good' ";
-                if ($book['condition'] === 'good') echo "selected";
-                echo ">good</option>";
-                echo "<option value='acceptable' ";
-                if ($book['condition'] === 'acceptable') echo "selected";
-                echo ">acceptable</option>";
-                echo "</select></div></form></td>";
-                // Display delete button
-                echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
+                                <select class='form-control input-sm' name='condition' onchange='this.form.submit()'>";
+            echo "<option value='new' ";
+            if ($book['condition'] === 'new') echo "selected";
+            echo ">new</option>";
+            echo "<option value='like new' ";
+            if ($book['condition'] === 'like new') echo "selected";
+            echo ">like new</option>";
+            echo "<option value='very good' ";
+            if ($book['condition'] === 'very good') echo "selected";
+            echo ">very good</option>";
+            echo "<option value='good' ";
+            if ($book['condition'] === 'good') echo "selected";
+            echo ">good</option>";
+            echo "<option value='acceptable' ";
+            if ($book['condition'] === 'acceptable') echo "selected";
+            echo ">acceptable</option>";
+            echo "</select></div></form></td>";
+            // Display delete button
+            echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
                             <div class='form-group'>
                                 <input type='hidden' name='book_id' value='" . $book['google_id'] . "'>
                                 <input type='hidden' name='book_title' value='" . $book['title'] . "'>
@@ -358,15 +405,13 @@ mysqli_stmt_close($stmt);
                                 title='Delete from Trade List'>
                                 </div></form>
                              </td>";
-                $count++;
+            $count++;
 
-            }
-            echo "</tbody>";
         }
-
-
-        ?>
-    </table>
+        echo "</tbody>";
+        echo "</table>";
+    }
+    ?>
 </div>
 
 <?php

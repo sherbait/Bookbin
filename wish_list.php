@@ -183,96 +183,100 @@ mysqli_stmt_close($stmt);
         echo "<div class='alert alert-info'>Your wish list is empty. Add books by using the search bar above.</div>";
     }
     ?>
-    <!-- table for pending wishes -->
-    <table class="table table-striped table-responsive text-info">
-        <?php
-        if (count($pending_books) > 0) {
-            // Get this user's pending trade info
-            $pending_trade_info = array();
-            $sql = "SELECT * FROM match_info WHERE receiver=?";
-            if ($stmt = mysqli_prepare($conn, $sql)) {
-                mysqli_stmt_bind_param($stmt, "s", $username);
-                if (mysqli_stmt_execute($stmt)) {
-                    $result = mysqli_stmt_get_result($stmt);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            $pending_trade_info[] = $row;
-                        }
+    <!-- display table for pending wishes -->
+    <?php
+    if (count($pending_books) > 0) {
+        echo "<table class=\"table table-striped table-responsive text-info\">";
+        // Get this user's pending trade info
+        $pending_trade_info = array();
+        $sql = "SELECT * FROM match_info WHERE receiver=? AND pending_wish=1";
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "s", $username);
+            if (mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+                if ($result->num_rows > 0) {
+                    while ($row = $result->fetch_assoc()) {
+                        $pending_trade_info[] = $row;
                     }
                 }
             }
-
-            echo "<div class='container text-center text-info'>";
-            echo "<h3><strong>Matched Wishes</strong></h3>";
-            echo "<p>Good news, your books are on their way!</p>";
-            echo "</div>";
-            $count = 1;
-            // Header
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>#</th>";
-            echo "<th>Title</th>";
-            echo "<th>Date Added</th>";
-            echo "<th>Status</th>";
-            echo "<th>Action</th>";
-            echo "</tr>";
-            echo "</thead>";
-            // Content
-            echo "<tbody>";
-            foreach ($pending_trade_info as $pending_trade) {
-                // Only display books that are in transit
-                if ($pending_trade['waybill_status'] === 'receipt accepted') {
-
-                    echo "<tr>";
-                    echo "<td>{$count}</td>";
-                    // Display title of the book
-                    echo "<td>{$pending_trade['title']}</td>";
-                    // Display date the book was added
-                    echo "<td>" . date_format(date_create($pending_trade['date_wisher_added']), "m/d/y") . "</td>";
-                    // Display the status of the book
-                    if ($pending_trade['report_status'] === 'no report') {
-                        echo "<td>in transit</td>";
-                    } else {
-                        echo "<td>{$pending_trade['report_status']}</td>";
-                    }
-                    // Possible actions once user receives the book: accept, reject
-                    echo "<td><abbr title='Book has arrived in good condition'>accept</abbr> | 
-                                <abbr title='Book has arrived in bad condition'>reject</abbr></td>";
-                    // TODO what to do if user accepts/rejects the book
-                    echo "</tr>";
-                    $count++;
-                }
-            }
-            echo "</tbody>";
         }
-        ?>
-    </table>
-    <br><br>
 
-    <!-- table for unmatched wish list -->
-    <table class="table table-striped table-responsive">
-        <?php
-        if (count($books) > 0) {
-            $count = 1;
-            // Headers
-            echo "<thead>";
-            echo "<tr>";
-            echo "<th>#</th>";
-            echo "<th>Title</th>";
-            echo "<th>Date Added</th>";
-            echo "<th>Condition on Arrival</th>";
-            echo "<th>Action</th>";
-            echo "</tr>";
-            echo "</thead>";
-            // Content
-            echo "<tbody>";
-            foreach ($books as $book) {
+        echo "<div class='container text-center text-info'>";
+        echo "<h3><strong>Matched Wishes</strong></h3>";
+        echo "<p>Good news, your books are on their way!</p>";
+        echo "</div>";
+        $count = 1;
+        // Header
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>#</th>";
+        echo "<th>Title</th>";
+        echo "<th>Date Added</th>";
+        echo "<th>Status</th>";
+        echo "<th>Action</th>";
+        echo "</tr>";
+        echo "</thead>";
+        // Content
+        echo "<tbody>";
+        foreach ($pending_trade_info as $pending_trade) {
+            // Only display books that are in transit
+            //if ($pending_trade['waybill_status'] === 'receipt accepted') {
+            if ($pending_trade['pending_wish'] == 1) {
                 echo "<tr>";
                 echo "<td>{$count}</td>";
-                echo "<td class='col-md-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
-                echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
-                echo "<td>{$book['condition']}</td>";
-                echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
+                // Display title of the book
+                echo "<td>{$pending_trade['title']}</td>";
+                // Display date the book was added
+                echo "<td>" . date_format(date_create($pending_trade['date_wisher_added']), "m/d/y") . "</td>";
+                // Display the status of the book
+                if ($pending_trade['report_status'] === 'no report') {
+                    echo "<td>in transit</td>";
+                } else {
+                    echo "<td>{$pending_trade['report_status']}</td>";
+                }
+                // Possible actions once user receives the book: accept, reject
+                echo "<td><abbr title='Book has arrived in good condition'>accept</abbr>";
+                //echo "| <abbr title='Book has arrived in bad condition'>reject</abbr></td>";
+                // TODO what to do if user accepts/rejects the book
+                echo "</tr>";
+                $count++;
+            }
+        }
+        echo "</tbody>";
+        echo "</table><br><br>";
+    }
+    ?>
+
+
+    <!-- display table for unmatched wish list -->
+    <?php
+    if (count($books) > 0) {
+        echo "<table class=\"table table-striped table-responsive\">";
+        echo "<div class='container text-center'>";
+        echo "<h3><strong>Wishes</strong></h3>";
+        echo "<p>We are waiting to find others who own these books.</p>";
+        echo "</div>";
+        $count = 1;
+        // Headers
+        echo "<thead>";
+        echo "<tr>";
+        echo "<th>#</th>";
+        echo "<th>Title</th>";
+        echo "<th>Date Added</th>";
+        echo "<th>Condition on Arrival</th>";
+        echo "<th>Action</th>";
+        echo "</tr>";
+        echo "</thead>";
+        // Content
+        echo "<tbody>";
+        foreach ($books as $book) {
+            echo "<tr>";
+            echo "<td>{$count}</td>";
+            echo "<td class='col-md-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
+            echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
+            echo "<td>{$book['condition']}</td>";
+            echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
                                 <input type='hidden' name='book_id' value='" . $book['google_id'] . "'>
                                 <input type='hidden' name='book_title' value='" . $book['title'] . "'>
                                 <input type='image' src='./img/delete.png' name='edit_wish'
@@ -280,13 +284,12 @@ mysqli_stmt_close($stmt);
                                 title='Delete from Wish List'>
                                 </form>
                              </td>";
-                $count++;
-            }
-            echo "</tbody>";
+            $count++;
         }
-
-        ?>
-    </table>
+        echo "</tbody>";
+        echo "</table>";
+    }
+    ?>
 </div>
 
 <?php
