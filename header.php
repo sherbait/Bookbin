@@ -60,13 +60,13 @@ include "./php/userid.php";
             <ul class="nav navbar-nav navbar-right">
                 <?php
                 if (isset($_SESSION["username"])) {
-                    // Dropdown for notification
+                    /*// Dropdown for notification
                     echo "<li class='dropdown'>";
                     echo "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
                     echo "<span class='label label-pill label-danger count'></span>";
                     echo "Notification</a>";
                     echo "<ul class='dropdown-menu'></ul>";
-                    echo "</li>";
+                    echo "</li>";*/
                     // Links to user profile and button
                     echo "<li><a href='profile.php'><span class='glyphicon glyphicon-user'></span> {$_SESSION['username']}</a></li>";
                     echo "<li><a href='logout.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";
