@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-include "./php/session.php";
+include "php/session.php";
 ?>
 
 <?php

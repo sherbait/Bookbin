@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-include "./php/session.php";
+include "php/session.php";
 
 /* Displays the trade list of the user.
  * TODO fix back-button form resend

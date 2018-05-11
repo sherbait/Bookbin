@@ -4,9 +4,9 @@ session_start();
 ?>
 
 <?php
-require "./php/settings.php";
-include "./php/bookpoints.php";
-include "./php/userid.php";
+require "php/settings.php";
+include "php/bookpoints.php";
+include "php/userid.php";
 ?>
 
 <!DOCTYPE html>

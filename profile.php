@@ -1,7 +1,7 @@
 <?php
 include "header.php";
-include "./php/session.php";
-include "./php/user_info.php";
+include "php/session.php";
+include "php/user_info.php";
 ?>
 
     <div class="container-fluid text-center">
