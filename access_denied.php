@@ -8,7 +8,7 @@
 
  ?>
 
-<div>
+<div class="container">
     <h3>The page you are looking for is restricted for members only.</h3>
     <a href="register.php">Register</a> or <a href="login.php">Login</a> to access this feature.
 </div>
