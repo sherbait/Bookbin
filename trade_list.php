@@ -278,7 +278,7 @@ mysqli_stmt_close($stmt);
         // Header
         echo "<thead>";
         echo "<tr>";
-        echo "<td>#</td>";
+        echo "<th>#</th>";
         echo "<th>Title</th>";
         echo "<th>Date Added</th>";
         echo "<th>Condition</th>";
