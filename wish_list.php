@@ -176,7 +176,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Store a book with pending transaction
                 if ($row['status'] === 1) {
                     $pending_books[] = $row;
-                } else if ($row['status'] === 0) {
+                } else if ($row['status'] === 0 OR $row['status'] === 3) {
                     // Store the book
                     $books[] = $row;
                 }
@@ -323,6 +323,7 @@ mysqli_stmt_close($stmt);
             echo "<td class='col-md-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
             echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
            // echo "<td>{$book['condition']}</td>";
+            if ($book['status'] === 0) {
             echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
                                 <input type='hidden' name='book_id' value='" . $book['google_id'] . "'>
                                 <input type='hidden' name='book_title' value='" . $book['title'] . "'>
@@ -331,6 +332,9 @@ mysqli_stmt_close($stmt);
                                 title='Delete from Wish List'>
                                 </form>
                              </td>";
+            } elseif ($book['status'] === 3) {
+                echo "<td></td>";
+            }
             $count++;
         }
         echo "</tbody>";
