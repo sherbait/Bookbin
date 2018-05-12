@@ -1,12 +1,12 @@
 <?php
 include "header.php";
-include "./php/functions.php";
+include "php/functions.php";
 ?>
 
 <?php
 // Redirect user to homepage, with an attempt to access the register page while logged in
 if (isset($_SESSION["username"])) {
-    header("location: index.php");
+    header("location: profile.php");
     exit;
 }
 ?>

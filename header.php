@@ -4,21 +4,24 @@ session_start();
 ?>
 
 <?php
-require "./php/settings.php";
-include "./php/bookpoints.php";
-include "./php/userid.php";
+require "php/settings.php";
+include "php/bookpoints.php";
+include "php/userid.php";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Bookbin | Swap Your Books Now</title>
+    <link rel="icon" type="image/x-icon" href="img/favicon.ico">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <!--<link rel="stylesheet" href="css/bootstrap-3.3.7/dist/css/bootstrap.min.css">-->
     <link rel="stylesheet" href="css/style.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="js/script.js"></script>
 </head>
 <body>
 <nav class="navbar navbar-default">
@@ -60,13 +63,13 @@ include "./php/userid.php";
             <ul class="nav navbar-nav navbar-right">
                 <?php
                 if (isset($_SESSION["username"])) {
-                    // Dropdown for notification
+                    /*// Dropdown for notification
                     echo "<li class='dropdown'>";
                     echo "<a href='#' class='dropdown-toggle' data-toggle='dropdown'>";
                     echo "<span class='label label-pill label-danger count'></span>";
                     echo "Notification</a>";
                     echo "<ul class='dropdown-menu'></ul>";
-                    echo "</li>";
+                    echo "</li>";*/
                     // Links to user profile and button
                     echo "<li><a href='profile.php'><span class='glyphicon glyphicon-user'></span> {$_SESSION['username']}</a></li>";
                     echo "<li><a href='logout.php'><span class='glyphicon glyphicon-log-out'></span> Logout</a></li>";

@@ -1,8 +1,8 @@
 <?php
     include "header.php";
-    include "./php/session.php";
-    include "./php/user_info.php";
-    include "./php/functions.php";
+    include "php/session.php";
+    include "php/user_info.php";
+    include "php/functions.php";
 ?>
 
 <?php

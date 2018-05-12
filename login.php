@@ -5,7 +5,7 @@ include "header.php";
 <?php
 // Redirect user to homepage, with an attempt to access the login page while logged in
 if (isset($_SESSION["username"])) {
-    header("location: index.php");
+    header("location: profile.php");
     exit;
 }
 ?>

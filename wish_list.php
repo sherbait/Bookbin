@@ -1,17 +1,18 @@
 <?php
 include "header.php";
-include "./php/session.php";
+include "php/session.php";
 ?>
 
 <?php
 // Variables for displaying messages to the user
 $add_book_err = "";
-$add_book = $delete_book = "";
+$add_book = $delete_book = $accept_book = "";
 
 $books = array();   #holds the books from the database that the user has added to their wish list
 $pending_books = array();   #holds the books from the user's wish list that user expects to receive
 $username = $_SESSION['username'];
 $user_id = $_SESSION['user_id'];   #This is a unique identifier for this user in the database
+$bookpoints = $_SESSION['bookpoint'];
 
 // Handle the case when user adds or deletes a book via form
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
@@ -19,7 +20,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     $book_google_id = $book_title = $book_url = $condition = "";
 
     // Check if the user clicked the [Add to Wish List] button in search.php
-    if ($_POST['edit_wish'] === "I want to read this") {
+    if (isset($_POST['edit_wish']) && $_POST['edit_wish'] === "I want to read this") {
 
         $book_google_id = $_POST['book_id'];
         $book_title = $_POST['book_title'];
@@ -66,6 +67,21 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             }
         }
 
+        // Check if the user has enough book points to request a book
+        $sql = "SELECT count(username) AS book_count FROM wish_items WHERE username=? AND pending_wish=0";
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "s", $username);
+            if (mysqli_stmt_execute($stmt)) {
+                $result = mysqli_stmt_get_result($stmt);
+                $row = $result->fetch_assoc();  // There should only be 1 row
+                // Calculate the minimum required BP to add this book
+                $min = ($row['book_count'] * 10) + 10;
+                if ($bookpoints < $min) {
+                    $add_book_err = "Not enough bookpoints. Send a book to earn bookpoints or delete an existing book from your wish list.";
+                }
+            }
+        }
+
         // Close the statement
         mysqli_stmt_close($stmt);
 
@@ -101,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
             mysqli_commit($conn);
             mysqli_stmt_close($stmt);
         }
-    } elseif ($_POST['edit_wish'] === "Delete from Wish List") {
+    } elseif (isset($_POST['edit_wish']) && $_POST['edit_wish'] === "Delete from Wish List") {
         $book_google_id = $_POST['book_id'];
         $book_title = $_POST['book_title'];
 
@@ -115,11 +131,29 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
 
             // Execute the statement
             if (mysqli_stmt_execute($stmt)) {
-                $delete_book = "Sucessfully deleted book.";
+                $delete_book = "Successfully deleted book.";
             } else {
                 echo "Something went wrong deleting the book. Please try again later.";
             }
         }
+    }
+
+    // User has confirmed that the book has arrived
+    if (isset($_POST['accept_book'])) {
+        $match_id = $_POST['match_id'];
+        $sender_id = $_POST['sender_id'];
+
+        // Execute the stored procedure that accepts this trade
+        $sql = "CALL AcceptBook(?, ?)";
+
+        if ($stmt = mysqli_prepare($conn, $sql)) {
+            mysqli_stmt_bind_param($stmt, "ii",$match_id,$sender_id);
+            if (mysqli_stmt_execute($stmt)) {
+                $accept_book = "Thank you for confirming. Enjoy your new book!";
+            } else
+                echo "Failed to execute procedure.";
+        }
+        mysqli_stmt_close($stmt);
     }
 }
 
@@ -142,7 +176,7 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Store a book with pending transaction
                 if ($row['status'] === 1) {
                     $pending_books[] = $row;
-                } else {
+                } else if ($row['status'] === 0) {
                     // Store the book
                     $books[] = $row;
                 }
@@ -177,6 +211,12 @@ mysqli_stmt_close($stmt);
         echo "<div class='alert alert-success alert-dismissible'>";
         echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
         echo $delete_book;
+        echo "</div>";
+    }
+    if (!empty($accept_book)) {
+        echo "<div class='alert alert-success alert-dismissible'>";
+        echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
+        echo $accept_book;
         echo "</div>";
     }
     if (count($pending_books) === 0 && count($books) === 0) {
@@ -236,9 +276,16 @@ mysqli_stmt_close($stmt);
                     echo "<td>{$pending_trade['report_status']}</td>";
                 }
                 // Possible actions once user receives the book: accept, reject
-                echo "<td><abbr title='Book has arrived in good condition'>accept</abbr>";
+                //echo "<td><abbr title='Book has arrived in good condition'>accept</abbr>";
                 //echo "| <abbr title='Book has arrived in bad condition'>reject</abbr></td>";
-                // TODO what to do if user accepts/rejects the book
+                echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
+                               <span>
+                                <input type='hidden' name='sender_id' value='" . $pending_trade['sender_id'] . "'>
+                                <input type='hidden' name='match_id' value='" . $pending_trade['id'] . "'>
+                                    <input type='submit' class='btn btn-danger btn-xs' name='accept_book' value='Accept'
+                                    title='Confirm the book has arrived'>
+                               </span></form>
+                             </td>";
                 echo "</tr>";
                 $count++;
             }
@@ -264,7 +311,7 @@ mysqli_stmt_close($stmt);
         echo "<th>#</th>";
         echo "<th>Title</th>";
         echo "<th>Date Added</th>";
-        echo "<th>Condition on Arrival</th>";
+        //echo "<th>Condition on Arrival</th>";
         echo "<th>Action</th>";
         echo "</tr>";
         echo "</thead>";
@@ -275,7 +322,7 @@ mysqli_stmt_close($stmt);
             echo "<td>{$count}</td>";
             echo "<td class='col-md-5'><a href='" . urldecode($book['url']) . "' target='_blank'>{$book['title']}</a></td>";
             echo "<td>" . date_format(date_create($book['date_added']), "m/d/y") . "</td>";
-            echo "<td>{$book['condition']}</td>";
+           // echo "<td>{$book['condition']}</td>";
             echo "<td><form action='" . htmlspecialchars($_SERVER["PHP_SELF"]) . "' method='POST'>
                                 <input type='hidden' name='book_id' value='" . $book['google_id'] . "'>
                                 <input type='hidden' name='book_title' value='" . $book['title'] . "'>

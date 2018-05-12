@@ -1,6 +1,6 @@
 <?php
 include "header.php";
-include "./php/session.php";
+include "php/session.php";
 
 /* Displays the trade list of the user.
  * TODO fix back-button form resend
@@ -11,7 +11,7 @@ include "./php/session.php";
 // Variables for displaying messages to the user
 $add_book_err = "";
 $add_book = $delete_book = "";
-$change_condition = "";
+$change_condition = $accept_trade = "";
 
 $books = array();   #holds the books from the database that the user has added to their trade list, w/o pending transactions
 $pending_books = array(); #stores the books with pending transactions the user has in their trade list
@@ -160,16 +160,19 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
     if (isset($_POST['accept_trade'])) {
         $match_id = $_POST['match_id'];
         $google_id = $_POST['book_id'];
+        $sender_id = $_POST['sender_id'];
+        $receiver_id = $_POST['receiver_id'];
 
         // Execute the stored procedure that accepts this trade
-        $sql = "CALL AcceptTrade(?, ?)";
+        $sql = "CALL AcceptTrade(?, ?, ?, ?)";
 
         if ($stmt = mysqli_prepare($conn, $sql)) {
-            mysqli_stmt_bind_param($stmt, "is",$match_id,$google_id);
+            mysqli_stmt_bind_param($stmt, "isii",$match_id,$google_id, $sender_id, $receiver_id);
             if (mysqli_stmt_execute($stmt)) {
-                echo "SUCESS";
+                $accept_trade = "Thank you for accepting the trade. 5 Bookpoints have been added to your account, 
+                and another 5 will be added when the wisher receives the book.";
             } else
-                echo "FAILED EXECUTION";
+                echo "Failed to execute procedure.";
         }
         mysqli_stmt_close($stmt);
     }
@@ -194,6 +197,8 @@ if ($stmt = mysqli_prepare($conn, $sql)) {
                 // Store a book with no pending transaction in the regular book array
                 if ($row['status'] === 0) {
                     $books[] = $row;
+                } else  if ($row['status'] === 5) {
+                    // don't add the book because 5 means it's a completed trade
                 } else {
                     $pending_books[] = $row;
                 }
@@ -234,6 +239,12 @@ mysqli_stmt_close($stmt);
         echo "<div class='alert alert-success alert-dismissible'>";
         echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
         echo $change_condition;
+        echo "</div>";
+    }
+    if (!empty($accept_trade)) {
+        echo "<div class='alert alert-success alert-dismissible'>";
+        echo "<a href=\"#\" class=\"close\" data-dismiss=\"alert\" aria-label=\"close\">&times;</a>";
+        echo $accept_trade;
         echo "</div>";
     }
     if (count($pending_books) === 0 && count($books) === 0) {
@@ -306,6 +317,8 @@ mysqli_stmt_close($stmt);
                                <span>
                                 <input type='hidden' name='book_id' value='" . $pending_trade['google_id'] . "'>
                                 <input type='hidden' name='match_id' value='" . $pending_trade['id'] . "'>
+                                <input type='hidden' name='sender_id' value='" . $pending_trade['sender_id'] . "'>
+                                <input type='hidden' name='receiver_id' value='" . $pending_trade['receiver_id'] . "'>
                                 <abbr title='Accepting this trade request means sending this book away to its new home'>
                                     <input type='submit' class='btn btn-danger btn-xs' name='accept_trade' value='Accept'>
                                 </abbr>
@@ -317,7 +330,7 @@ mysqli_stmt_close($stmt);
                 // echo "<td>{$pending_trade['waybill_status']}</td>";
                 echo "<td>trade accepted</td>";
                 echo "<td>-</td>";
-                echo "<td><div class='containter'><button type='button' class='btn btn-info btn-xs' 
+                echo "<td><div><button type='button' class='btn btn-info btn-xs' 
                     data-toggle='modal' data-target='#user_info' onclick='getUserInfo({$pending_trade['receiver_id']})'>Mail</button></div></td>";
             }
             echo "</tr>";
