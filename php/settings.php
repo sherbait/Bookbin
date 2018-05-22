@@ -12,14 +12,8 @@ define("DB_NAME", "bookbin");
 define("DB_USERNAME", "root");
 define("DB_PASSWORD", "");
 
-// Live database settings
-/*define("DB_SERVER", "localhost");
-define("DB_NAME", "bookbin");
-define("DB_USERNAME", "bb_admin");
-define("DB_PASSWORD", "7etT;PBb65tL");*/
-
 // Key needed to communicate with Google Books API
-define("API_KEY", "AIzaSyClZjM2QOgsz_QPXDmRPlDeB1WQlHvsK7s");
+define("API_KEY", "");
 
 
 date_default_timezone_set("Asia/Manila");
